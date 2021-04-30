@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import useSWR from "swr";
+import { MobileDrop } from "../MobileDrop";
 import { Maybe } from "../../components/common/Maybe";
 import checkLogin from "../../utils/checkLogin";
 import storage from "../../utils/storage";
@@ -11,54 +12,60 @@ export const Header = () => {
   const isLoggedIn = checkLogin(accessToken);
 
   const [accountDrop, setAccountDrop] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
 
   return (
     <div className="bg-white ">
       <div className="container p-2 px-4 mx-auto max-w-7xl">
         <div className="flex justify-between ">
-          <Link href="/">
-            <div className="flex-shrink-0 w-16 h-16 mx-auto cursor-pointer ">
-              <Image
-                src="/images/logo.svg"
-                alt="logo"
-                width={2000}
-                height={2000}
-              />
-            </div>
-          </Link>
+          <div className="flex items-end ">
+            <Link href="/">
+              <div className="flex-shrink-0 w-20 h-20 mx-auto cursor-pointer ">
+                <Image
+                  src="/images/logo.svg"
+                  alt="logo"
+                  width={2000}
+                  height={2000}
+                />
+              </div>
+            </Link>
+            <p className="pb-2 font-bold text-green-600">Business</p>
+          </div>
           <div className="flex items-center justify-end w-full col-span-2 ">
             <div className="flex items-center space-x-5">
-              <button className="flex items-center space-x-1">
-                <p className="font-semibold text-gray-800 ">Solutions</p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  className="w-3 h-3 text-gray-800 fill-current "
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </button>
-              <button className="flex items-center space-x-1">
-                <p className="font-semibold text-gray-800 ">Products</p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  className="w-3 h-3 text-gray-800 fill-current "
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </button>
+              <div className="items-center hidden space-x-5 lg:flex ">
+                <button className="flex items-center space-x-1">
+                  <p className="font-semibold text-gray-800 ">Solutions</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    className="w-3 h-3 text-gray-800 fill-current "
+                  >
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                  </svg>
+                </button>
+                <button className="flex items-center space-x-1">
+                  <p className="font-semibold text-gray-800 ">Products</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    className="w-3 h-3 text-gray-800 fill-current "
+                  >
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                  </svg>
+                </button>
+                <button className="flex items-center space-x-1">
+                  <p className="font-semibold text-gray-800 ">Contact us</p>
+                </button>
+                <button className="flex items-center space-x-1">
+                  <p className="font-semibold text-gray-800 ">Support</p>
+                </button>
+              </div>
 
-              <button className="flex items-center space-x-1">
-                <p className="font-semibold text-gray-800 ">Contact us</p>
-              </button>
-              <button className="flex items-center space-x-1">
-                <p className="font-semibold text-gray-800 ">Support</p>
-              </button>
               <Maybe condition={isLoggedIn}>
                 <div className="relative flex items-center">
                   <button
@@ -84,6 +91,8 @@ export const Header = () => {
           </div>
         </div>
       </div>
+      <MobileDrop dropdown={dropdown} setDropdown={setDropdown} />
+
       <Maybe condition={accountDrop}>
         <div
           onClick={() => setAccountDrop(false)}
