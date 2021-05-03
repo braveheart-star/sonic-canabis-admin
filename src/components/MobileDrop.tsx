@@ -32,16 +32,6 @@ export const MobileDrop = (props: MobileDropInterface) => {
     >
       <div className="max-h-screen overflow-y-scroll">
         <div className="p-5 text-gray-700">
-          <Link href="/">
-            <div className="flex-shrink-0 w-20 h-20 mx-auto ">
-              <Image
-                src="/images/logo.svg"
-                alt="logo"
-                width={2000}
-                height={2000}
-              />
-            </div>
-          </Link>
           <Maybe condition={!isLoggedIn}>
             <div className="flex py-4 space-x-6 sm:space-x-8 ">
               <Link href="/auth/login">

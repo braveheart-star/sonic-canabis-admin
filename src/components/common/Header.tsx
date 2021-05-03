@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import useSWR from "swr";
@@ -11,13 +11,31 @@ export const Header = () => {
   const { data: accessToken } = useSWR("accessToken", storage);
   const isLoggedIn = checkLogin(accessToken);
 
-  const [accountDrop, setAccountDrop] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
+  useEffect((): any => {
+    if (dropdown) {
+      document.body.style.position = "fixed";
+    } else document.body.style.position = "inherit";
+    return () => (document.body.style.position = "inherit");
+  }, [dropdown]);
+
   return (
-    <div className="bg-white ">
-      <div className="container p-2 px-4 mx-auto max-w-7xl">
+    <div className="bg-white border">
+      <div className="container px-4 mx-auto max-w-7xl">
         <div className="flex justify-between ">
+          <button
+            className=" focus:outline-none lg:hidden"
+            onClick={() => setDropdown(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              className="w-5 h-5 text-green-600 fill-current "
+            >
+              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+            </svg>
+          </button>
           <div className="flex items-end ">
             <Link href="/">
               <div className="flex-shrink-0 w-20 h-20 mx-auto cursor-pointer ">
@@ -31,7 +49,7 @@ export const Header = () => {
             </Link>
             <p className="pb-2 font-bold text-green-600">Business</p>
           </div>
-          <div className="flex items-center justify-end w-full col-span-2 ">
+          <div className="items-center justify-end hidden w-full col-span-2 lg:flex ">
             <div className="flex items-center space-x-5">
               <div className="items-center hidden space-x-5 lg:flex ">
                 <button className="flex items-center space-x-1">
@@ -66,22 +84,6 @@ export const Header = () => {
                 </button>
               </div>
 
-              <Maybe condition={isLoggedIn}>
-                <div className="relative flex items-center">
-                  <button
-                    onClick={() => setAccountDrop(true)}
-                    className="focus:outline-none"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-5 h-5 text-gray-100 fill-current "
-                    >
-                      <path d="M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z" />
-                    </svg>
-                  </button>
-                </div>
-              </Maybe>
               <Maybe condition={!isLoggedIn}>
                 <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
                   <p className="font-semibold text-white ">Log in</p>
@@ -93,10 +95,10 @@ export const Header = () => {
       </div>
       <MobileDrop dropdown={dropdown} setDropdown={setDropdown} />
 
-      <Maybe condition={accountDrop}>
+      <Maybe condition={dropdown}>
         <div
-          onClick={() => setAccountDrop(false)}
-          className="fixed inset-0 z-10 bg-black lg:bg-opacity-0 bg-opacity-5"
+          onClick={() => setDropdown(false)}
+          className="fixed inset-0 z-10 bg-black bg-opacity-40"
         />
       </Maybe>
     </div>
