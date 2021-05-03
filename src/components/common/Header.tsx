@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import useSWR from "swr";
+
 import { MobileDrop } from "../MobileDrop";
 import { Maybe } from "../../components/common/Maybe";
 import checkLogin from "../../utils/checkLogin";
@@ -49,37 +50,39 @@ export const Header = () => {
             </Link>
             <p className="pb-2 font-bold text-green-600">Business</p>
           </div>
+
           <div className="items-center justify-end hidden w-full col-span-2 lg:flex ">
             <div className="flex items-center space-x-5">
               <div className="items-center hidden space-x-5 lg:flex ">
-                <button className="flex items-center space-x-1">
-                  <p className="font-semibold text-gray-800 ">Solutions</p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    className="w-3 h-3 text-gray-800 fill-current "
-                  >
-                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                  </svg>
-                </button>
-                <button className="flex items-center space-x-1">
-                  <p className="font-semibold text-gray-800 ">Products</p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    className="w-3 h-3 text-gray-800 fill-current "
-                  >
-                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                  </svg>
-                </button>
-                <button className="flex items-center space-x-1">
+                <div className="relative">
+                  <button className="flex items-center space-x-1 focus:outline-none">
+                    <p className="font-semibold text-gray-800 ">Solutions</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      className="w-4 h-4 text-gray-800 fill-current "
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </button>
+                  {renderSolutionDrop()}
+                </div>
+                <div className="relative">
+                  <button className="flex items-center space-x-1 focus:outline-none">
+                    <p className="font-semibold text-gray-800 ">Products</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      className="w-4 h-4 text-gray-800 fill-current "
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </button>
+                </div>
+                <button className="flex items-center space-x-1 focus:outline-none">
                   <p className="font-semibold text-gray-800 ">Contact us</p>
                 </button>
-                <button className="flex items-center space-x-1">
+                <button className="flex items-center space-x-1 focus:outline-none">
                   <p className="font-semibold text-gray-800 ">Support</p>
                 </button>
               </div>
@@ -104,3 +107,12 @@ export const Header = () => {
     </div>
   );
 };
+
+const renderSolutionDrop = () => (
+  <div className="absolute top-8">
+    <div className="px-6 py-2 text-sm text-left bg-white divide-y rounded shadow-md NoteMenu">
+      <p className="py-2 cursor-pointer">Retailers</p>
+      <p className="py-2 cursor-pointer">Brands</p>
+    </div>
+  </div>
+);

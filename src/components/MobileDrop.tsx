@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import useSWR, { mutate } from "swr";
 
 import { Maybe } from "./common/Maybe";
@@ -26,20 +25,17 @@ export const MobileDrop = (props: MobileDropInterface) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 z-20 w-4/5 min-h-screen bg-white lg:hidden ${
+      className={`fixed top-0 left-0 z-20 w-4/5 min-h-screen  bg-teal-500 text-white lg:hidden ${
         dropdown ? `${styles.mobileOpen}` : `${styles.mobileClose}`
       }`}
     >
       <div className="max-h-screen overflow-y-scroll">
-        <div className="p-5 text-gray-700">
+        <div className="p-5 ">
           <Maybe condition={!isLoggedIn}>
             <div className="flex py-4 space-x-6 sm:space-x-8 ">
               <Link href="/auth/login">
-                <button className="font-bold ">Log in</button>
-              </Link>
-              <Link href="/auth/register">
-                <button className="px-4 py-2 font-bold text-white bg-green-500 rounded-lg sm:px-6 sm:py-2">
-                  Sign up
+                <button className="px-4 py-1 font-semibold text-black bg-white rounded-full">
+                  Log in
                 </button>
               </Link>
             </div>
@@ -56,7 +52,7 @@ export const MobileDrop = (props: MobileDropInterface) => {
           </Maybe>
           <div className="py-3 border-t">
             <Link href="/">
-              <p>Download the app</p>
+              <p>Solutions</p>
             </Link>
           </div>
           <div className="py-3 space-y-3 border-t ">

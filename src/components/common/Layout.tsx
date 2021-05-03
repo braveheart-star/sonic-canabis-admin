@@ -13,8 +13,8 @@ export const Layout = ({ children }: any) => {
           exit={{ opacity: 0 }}
         >
           <Header />
-          <div className="flex min-h-screen py-4 lg:py-8 ">{children}</div>
-          <Footer />
+          {/* <div className="flex min-h-screen py-4 lg:py-8 ">{children}</div> */}
+          {/* <Footer /> */}
         </motion.main>
       </div>
     </div>
