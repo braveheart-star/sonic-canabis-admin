@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <div className="pb-6 bg-white ">
+    <div className="pb-6 bg-white border-t">
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="hidden lg:block">{renderDesktop()}</div>
         <div className="lg:hidden">{renderMobile()}</div>

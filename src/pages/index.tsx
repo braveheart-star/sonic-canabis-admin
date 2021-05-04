@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="container p-4 mx-auto space-y-4 text-gray-700 border lg:space-y-8 max-w-7xl">
-      <div className="grid items-center grid-cols-1 py-4 mx-auto border border-red-500 lg:py-8 lg:grid-cols-2">
+    <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:space-y-8 max-w-7xl">
+      <div className="grid items-center grid-cols-1 py-4 mx-auto lg:py-8 lg:grid-cols-2">
         <div className="flex-shrink-0 mx-auto lg:hidden ">
           <Image
             src="/images/home/back.svg"
@@ -13,7 +13,7 @@ export default function Home() {
             height={1500}
           />
         </div>
-        <div className="border ">
+        <div>
           <p className="my-4 text-3xl font-bold tracking-wider lg:text-5xl">
             Kick start your
           </p>
@@ -27,7 +27,7 @@ export default function Home() {
             <button className="px-4 py-2 font-semibold text-white bg-orange-600 rounded-full">
               Get started
             </button>
-            <button className="px-4 py-2 font-semibold border rounded-full">
+            <button className="px-4 py-2 font-semibold border-2 rounded-full">
               Contact Us
             </button>
           </div>
@@ -55,7 +55,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative flex w-full h-56 border border-red-500">
+      <div className="relative flex w-full h-56">
         <Image
           src="/images/home/banner1.svg"
           alt="Picture of the author"
@@ -74,7 +74,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="grid items-center grid-cols-1 mx-auto border border-red-500 lg:grid-cols-2">
+      <div className="grid items-center grid-cols-1 mx-auto lg:grid-cols-2">
         <div className="flex-shrink-0 mx-auto ">
           <Image
             src="/images/home/retailer.svg"
@@ -93,7 +93,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative flex w-full h-56 border border-red-500 ">
+      <div className="relative flex w-full h-56 ">
         <Image
           src="/images/home/banner2.svg"
           alt="Picture of the author"
@@ -114,7 +114,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 mt-4 border border-red-500 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2 mt-4 lg:grid-cols-3">
         <div className="relative flex w-full h-56 rounded ">
           <Image
             src="/images/home/frame1.svg"
@@ -171,7 +171,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative flex w-full h-56 border border-red-500">
+      <div className="relative flex w-full h-56">
         <Image
           src="/images/home/banner3.svg"
           alt="Picture of the author"
@@ -180,7 +180,7 @@ export default function Home() {
           className="rounded " // just an example
         />
         <div className="absolute space-y-2 lg:left-1/2 top-1/3">
-          <p className="px-4 font-bold text-black  lg:text-2xl">
+          <p className="px-4 font-bold text-black lg:text-2xl">
             Ready to get started with CanabisMap?
           </p>
           <div className="flex justify-center space-x-4 ">

@@ -6,7 +6,7 @@ export const Layout = ({ children }: any) => {
   return (
     <div>
       <Header />
-      <div className="flex min-h-screen py-4 lg:py-8 ">{children}</div>
+      <div className="flex py-4 lg:py-8 ">{children}</div>
       <Footer />
     </div>
   );

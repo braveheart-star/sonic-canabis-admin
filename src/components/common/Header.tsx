@@ -10,15 +10,15 @@ export const Header = () => {
   const [solutionDrop, setSolutionDrop] = useState(false);
   const [productDrop, setProductDrop] = useState(false);
 
-  useEffect((): any => {
-    if (menuDrop) {
-      document.body.style.position = "fixed";
-    } else document.body.style.position = "inherit";
-    return () => (document.body.style.position = "inherit");
-  }, [menuDrop]);
+  // useEffect((): any => {
+  //   if (menuDrop) {
+  //     document.body.style.position = "fixed";
+  //   } else document.body.style.position = "inherit";
+  //   return () => (document.body.style.position = "inherit");
+  // }, [menuDrop]);
 
   return (
-    <div className="bg-white border">
+    <div className="bg-white ">
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="flex items-center justify-between ">
           <button
@@ -59,7 +59,7 @@ export const Header = () => {
       <Maybe condition={menuDrop}>
         <div
           onClick={() => setMenuDrop(false)}
-          className="fixed inset-0 z-10 bg-black bg-opacity-40"
+          className="fixed inset-0 z-10 bg-black bg-opacity-40 "
         />
       </Maybe>
 
