@@ -1,9 +1,10 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:space-y-8 max-w-7xl">
+    <div className="container p-4 mx-auto space-y-4 text-gray-700 bg-white lg:space-y-8 max-w-7xl">
       <div className="grid items-center grid-cols-1 py-4 mx-auto lg:py-8 lg:grid-cols-2">
         <div className="flex-shrink-0 mx-auto lg:hidden ">
           <Image
@@ -24,9 +25,11 @@ export default function Home() {
             business
           </p>
           <div className="flex justify-center px-4 mt-12 space-x-6 lg:justify-start">
-            <button className="px-4 py-2 font-semibold text-white bg-orange-600 rounded-full">
-              Get started
-            </button>
+            <Link href="/business">
+              <button className="px-4 py-2 font-semibold text-white bg-orange-600 rounded-full">
+                Get started
+              </button>
+            </Link>
             <button className="px-4 py-2 font-semibold border-2 rounded-full">
               Contact Us
             </button>

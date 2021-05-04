@@ -15,11 +15,9 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
       </Head>
-      <div className="relative flex flex-col w-full min-h-screen ">
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </div>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </div>
   );
 }
