@@ -30,9 +30,11 @@ export default function Home() {
                 Get started
               </button>
             </Link>
-            <button className="px-4 py-2 font-semibold border-2 rounded-full">
-              Contact Us
-            </button>
+            <Link href="/contact">
+              <button className="px-4 py-2 font-semibold border-2 rounded-full">
+                Contact Us
+              </button>
+            </Link>
           </div>
           <div className="mt-8 font-semibold text-center lg:mt-20 ">
             <p>Find out more</p>

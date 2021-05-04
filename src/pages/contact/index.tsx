@@ -13,7 +13,7 @@ const businessRole = [
   { value: "other", label: "Other" },
 ];
 
-export default function business() {
+export default function contact() {
   const [businessRole, setBusinessRole] = useState(null);
 
   function handleSelectRole(role: any) {
@@ -24,30 +24,27 @@ export default function business() {
     <div className="container p-4 mx-auto space-y-4 text-gray-700 bg-white lg:space-y-8 max-w-7xl">
       <div className="relative w-full h-56 rounded shadow">
         <Image
-          src="/images/business/backBg.svg"
+          src="/images/contact/backBg.svg"
           alt="Picture of the author"
           layout="fill" // required
           objectFit="cover" // change to suit your needs
           className="rounded " // just an example
         />
-        <div className="absolute text-2xl font-bold text-white left-8 sm:text-3xl sm:left-24 top-1/3">
-          <p>Get started</p>
-          <p>for your business today !</p>
+        <div className="absolute text-2xl font-bold text-black left-8 sm:text-3xl sm:left-24 top-1/3">
+          <p>Have questions?</p>
+          <p>Contact us</p>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto space-y-4 lg:space-y-8 ">
         <div className="space-y-2 lg:space-y-4 ">
-          <p className="font-bold text-black lg:text-lg ">Add your business</p>
-          <p className="text-sm ">
-            Complete and submit the form below. Your business will appear on
-            Weedmaps after our account team contacts you and verifies the
-            information.
+          <p className="font-bold text-black lg:text-lg ">
+            Fill in your information
           </p>
           <p className="text-sm ">
-            If you are submitting this application on behalf of a company or
-            other legal entity, you represent that you have the authority to
-            bind such entity to the terms and conditions set forth herein.
+            Fill out this form and we’ll be in touch as soon as possible. Please
+            only submit the form if you can officially represent the business
+            and act on its behalf.
           </p>
         </div>
         <div className="space-y-2 lg:space-y-4 ">
