@@ -20,9 +20,9 @@ export const Header = () => {
   return (
     <div className="bg-white border">
       <div className="container px-4 mx-auto max-w-7xl">
-        <div className="flex justify-between ">
+        <div className="flex items-center justify-between ">
           <button
-            className=" focus:outline-none lg:hidden"
+            className="focus:outline-none lg:hidden"
             onClick={() => setMenuDrop(true)}
           >
             <svg
@@ -46,74 +46,15 @@ export const Header = () => {
             </Link>
             <p className="pb-2 font-bold text-green-600">Business</p>
           </div>
-          <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
-            <div className="flex items-center space-x-5">
-              <div className="relative">
-                <button
-                  onClick={() => setSolutionDrop(true)}
-                  className="flex items-center space-x-1 focus:outline-none"
-                >
-                  <p className="font-semibold text-gray-800 ">Solutions</p>
-                  {!solutionDrop ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-4 h-4 text-gray-800 fill-current "
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-4 h-4 text-gray-800 fill-current "
-                    >
-                      <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                    </svg>
-                  )}
-                </button>
-                {solutionDrop && renderSolutionDrop()}
-              </div>
-              <div className="relative ">
-                <button
-                  onClick={() => setProductDrop(true)}
-                  className="flex items-center space-x-1 focus:outline-none"
-                >
-                  <p className="font-semibold text-gray-800 ">Products</p>
-                  {!productDrop ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-4 h-4 text-gray-800 fill-current "
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-4 h-4 text-gray-800 fill-current "
-                    >
-                      <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                    </svg>
-                  )}
-                </button>
-                {productDrop && renderProductDrop()}
-              </div>
-              <button className="flex items-center space-x-1 focus:outline-none">
-                <p className="font-semibold text-gray-800 ">Contact us</p>
-              </button>
-              <button className="flex items-center space-x-1 focus:outline-none">
-                <p className="font-semibold text-gray-800 ">Support</p>
-              </button>
-              <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
-                <p className="font-semibold text-white ">Log in</p>
-              </button>
-            </div>
-          </div>
+          <RenderDesktop
+            setSolutionDrop={setSolutionDrop}
+            setProductDrop={setProductDrop}
+            solutionDrop={solutionDrop}
+            productDrop={productDrop}
+          />
         </div>
+        <MobileDrop menuDrop={menuDrop} setDropdown={setMenuDrop} />
       </div>
-      <MobileDrop dropdown={menuDrop} setDropdown={setMenuDrop} />
 
       <Maybe condition={menuDrop}>
         <div
@@ -215,3 +156,80 @@ const renderProductDrop = () => (
     </div>
   </div>
 );
+
+interface DesktopProps {
+  setSolutionDrop: Function;
+  solutionDrop: boolean;
+  setProductDrop: Function;
+  productDrop: boolean;
+}
+function RenderDesktop(props: DesktopProps) {
+  const { setSolutionDrop, setProductDrop, solutionDrop, productDrop } = props;
+  return (
+    <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
+      <div className="flex items-center space-x-5">
+        <div className="relative">
+          <button
+            onClick={() => setSolutionDrop(true)}
+            className="flex items-center space-x-1 focus:outline-none"
+          >
+            <p className="font-semibold text-gray-800 ">Solutions</p>
+            {!solutionDrop ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                className="w-4 h-4 text-gray-800 fill-current "
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                className="w-4 h-4 text-gray-800 fill-current "
+              >
+                <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
+              </svg>
+            )}
+          </button>
+          {solutionDrop && renderSolutionDrop()}
+        </div>
+        <div className="relative ">
+          <button
+            onClick={() => setProductDrop(true)}
+            className="flex items-center space-x-1 focus:outline-none"
+          >
+            <p className="font-semibold text-gray-800 ">Products</p>
+            {!productDrop ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                className="w-4 h-4 text-gray-800 fill-current "
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                className="w-4 h-4 text-gray-800 fill-current "
+              >
+                <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
+              </svg>
+            )}
+          </button>
+          {productDrop && renderProductDrop()}
+        </div>
+        <button className="flex items-center space-x-1 focus:outline-none">
+          <p className="font-semibold text-gray-800 ">Contact us</p>
+        </button>
+        <button className="flex items-center space-x-1 focus:outline-none">
+          <p className="font-semibold text-gray-800 ">Support</p>
+        </button>
+        <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+          <p className="font-semibold text-white ">Log in</p>
+        </button>
+      </div>
+    </div>
+  );
+}
