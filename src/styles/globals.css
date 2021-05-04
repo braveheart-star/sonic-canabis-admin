@@ -1,0 +1,54 @@
+/* ./styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.SolutionMenu:after,
+.SolutionMenu:before {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.SolutionMenu:after {
+  border-bottom-color: #ffffff;
+  border-width: 10px;
+  left: 20%;
+  margin-left: 14px;
+}
+.SolutionMenu:before {
+  border-bottom-color: #000000;
+  opacity: 12%;
+  border-width: 12px;
+  left: 20%;
+  margin-left: 14px;
+}
+
+.ProductMenu:after,
+.ProductMenu:before {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ProductMenu:after {
+  border-bottom-color: #ffffff;
+  border-width: 10px;
+  left: 50%;
+  margin-left: 14px;
+}
+.ProductMenu:before {
+  border-bottom-color: #000000;
+  opacity: 12%;
+  border-width: 12px;
+  left: 50%;
+  margin-left: 14px;
+}
