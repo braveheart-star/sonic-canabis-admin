@@ -50,48 +50,43 @@ export const Header = () => {
             </Link>
             <p className="pb-2 font-bold text-green-600">Business</p>
           </div>
-
-          <div className="items-center justify-end hidden w-full col-span-2 lg:flex ">
+          <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
             <div className="flex items-center space-x-5">
-              <div className="items-center hidden space-x-5 lg:flex ">
-                <div className="relative">
-                  <button className="flex items-center space-x-1 focus:outline-none">
-                    <p className="font-semibold text-gray-800 ">Solutions</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-4 h-4 text-gray-800 fill-current "
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </button>
-                  {renderSolutionDrop()}
-                </div>
-                <div className="relative">
-                  <button className="flex items-center space-x-1 focus:outline-none">
-                    <p className="font-semibold text-gray-800 ">Products</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      className="w-4 h-4 text-gray-800 fill-current "
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </button>
-                </div>
+              <div className="relative">
                 <button className="flex items-center space-x-1 focus:outline-none">
-                  <p className="font-semibold text-gray-800 ">Contact us</p>
+                  <p className="font-semibold text-gray-800 ">Solutions</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    className="w-4 h-4 text-gray-800 fill-current "
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
                 </button>
-                <button className="flex items-center space-x-1 focus:outline-none">
-                  <p className="font-semibold text-gray-800 ">Support</p>
-                </button>
+                {renderSolutionDrop()}
               </div>
-
-              <Maybe condition={!isLoggedIn}>
-                <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
-                  <p className="font-semibold text-white ">Log in</p>
+              <div className="relative ">
+                <button className="flex items-center space-x-1 focus:outline-none">
+                  <p className="font-semibold text-gray-800 ">Products</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    className="w-4 h-4 text-gray-800 fill-current "
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
                 </button>
-              </Maybe>
+                {renderProductDrop()}
+              </div>
+              <button className="flex items-center space-x-1 focus:outline-none">
+                <p className="font-semibold text-gray-800 ">Contact us</p>
+              </button>
+              <button className="flex items-center space-x-1 focus:outline-none">
+                <p className="font-semibold text-gray-800 ">Support</p>
+              </button>
+              <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+                <p className="font-semibold text-white ">Log in</p>
+              </button>
             </div>
           </div>
         </div>
@@ -110,9 +105,77 @@ export const Header = () => {
 
 const renderSolutionDrop = () => (
   <div className="absolute top-8">
-    <div className="px-6 py-2 text-sm text-left bg-white divide-y rounded shadow-md NoteMenu">
+    <div className="px-6 py-2 text-sm text-left bg-white divide-y rounded shadow-md SolutionMenu">
       <p className="py-2 cursor-pointer">Retailers</p>
       <p className="py-2 cursor-pointer">Brands</p>
+    </div>
+  </div>
+);
+
+const renderProductDrop = () => (
+  <div
+    className="absolute border rounded-md top-8 -left-72"
+    style={{ width: "600px" }}
+  >
+    <div className="text-sm text-left bg-white divide-y rounded-md shadow-md ProductMenu">
+      <div className="grid grid-cols-3 text-gray-600 divide-x">
+        <div className="p-4 space-y-4 ">
+          <p>Get a presence</p>
+          <div>
+            <p className="text-sm font-bold ">WM Pages</p>
+            <p className="text-xs ">Get listed on Weedmaps</p>
+          </div>
+          <div>
+            <p>
+              <span className="font-semibold ">--</span> For Retailers
+            </p>
+            <p>
+              <span className="font-semibold ">--</span> For Brands
+            </p>
+          </div>
+        </div>
+        <div className="p-4 space-y-4 ">
+          <p>Drive traffic</p>
+          <div>
+            <p className="text-sm font-bold ">WM Ads</p>
+            <p className="text-xs ">Promote your business</p>
+          </div>
+          <div>
+            <p className="text-sm font-bold ">WM Deals</p>
+            <p className="text-xs ">Growth with savings</p>
+          </div>
+        </div>
+        <div className="p-4 space-y-4 ">
+          <p>Streamline operations</p>
+          <div>
+            <p className="text-sm font-bold ">WM Orders</p>
+            <p className="text-xs">Ecommerce for delivery and pickup </p>
+          </div>
+          <div>
+            <p>
+              <span className="font-semibold ">--</span> WM Store
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-bold ">WM Retail</p>
+            <p className="text-xs">Integrated POS solution </p>
+          </div>
+
+          <div>
+            <p className="text-sm font-bold ">WM Exchange</p>
+            <p className="text-xs">Wholesale marketplace </p>
+          </div>
+
+          <div>
+            <p>
+              <span className="font-semibold ">--</span>For Buyers
+            </p>
+            <p>
+              <span className="font-semibold ">--</span>For Sellers
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 );
