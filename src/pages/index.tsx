@@ -3,19 +3,27 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="container p-4 mx-auto space-y-8 text-gray-700 border max-w-7xl">
-      <div className="grid items-center grid-cols-1 py-8 mx-auto border border-red-500 lg:grid-cols-2">
+    <div className="container p-4 mx-auto space-y-4 text-gray-700 border lg:space-y-8 max-w-7xl">
+      <div className="grid items-center grid-cols-1 py-4 mx-auto border border-red-500 lg:py-8 lg:grid-cols-2">
+        <div className="flex-shrink-0 mx-auto lg:hidden ">
+          <Image
+            src="/images/home/back.svg"
+            alt="logo"
+            width={2000}
+            height={1500}
+          />
+        </div>
         <div className="border ">
-          <p className="my-4 text-5xl font-bold tracking-wider">
+          <p className="my-4 text-3xl font-bold tracking-wider lg:text-5xl">
             Kick start your
           </p>
-          <p className="text-5xl font-bold tracking-wider">
+          <p className="text-3xl font-bold tracking-wider lg:text-5xl">
             <span className="mr-2 bg-gradient-to-l from-emerald-300">
               cannabis
             </span>
             business
           </p>
-          <div className="flex px-4 mt-12 space-x-6">
+          <div className="flex justify-center px-4 mt-12 space-x-6 lg:justify-start">
             <button className="px-4 py-2 font-semibold text-white bg-orange-600 rounded-full">
               Get started
             </button>
@@ -23,7 +31,7 @@ export default function Home() {
               Contact Us
             </button>
           </div>
-          <div className="mt-20 font-semibold text-center ">
+          <div className="mt-8 font-semibold text-center lg:mt-20 ">
             <p>Find out more</p>
             <svg
               width="24"
@@ -37,7 +45,7 @@ export default function Home() {
             </svg>
           </div>
         </div>
-        <div className="flex-shrink-0 mx-auto ">
+        <div className="flex-shrink-0 hidden mx-auto lg:block">
           <Image
             src="/images/home/back.svg"
             alt="logo"
@@ -55,6 +63,15 @@ export default function Home() {
           objectFit="cover" // change to suit your needs
           className="rounded " // just an example
         />
+        <div className="absolute text-black left-20 top-1/3">
+          <p className="text-3xl font-bold tracking-wider">
+            <span className="mr-2 bg-gradient-to-l from-yellow-300">
+              Solutions
+            </span>
+            for
+          </p>
+          <p className="text-3xl font-bold tracking-wider">your business</p>
+        </div>
       </div>
 
       <div className="grid items-center grid-cols-1 mx-auto border border-red-500 lg:grid-cols-2">
@@ -63,7 +80,7 @@ export default function Home() {
             src="/images/home/retailer.svg"
             alt="logo"
             width={2000}
-            height={1000}
+            height={1300}
           />
         </div>
         <div className="flex-shrink-0 mx-auto ">
@@ -71,7 +88,7 @@ export default function Home() {
             src="/images/home/brand.svg"
             alt="logo"
             width={2000}
-            height={1000}
+            height={1300}
           />
         </div>
       </div>
@@ -84,9 +101,20 @@ export default function Home() {
           objectFit="cover" // change to suit your needs
           className="rounded " // just an example
         />
+        <div className="absolute text-black lg:left-1/2 top-1/4 lg:top-1/3">
+          <p className="text-3xl font-bold tracking-wider">
+            Branding solutions
+          </p>
+          <p className="mt-2 text-3xl font-bold tracking-wider">
+            <span className="mr-2 bg-gradient-to-l from-rose-300">
+              customized
+            </span>
+            for your business
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-3 grid-rows-2 gap-2 mt-4 border border-red-500">
+      <div className="grid grid-cols-1 gap-2 mt-4 border border-red-500 lg:grid-cols-3">
         <div className="relative flex w-full h-56 rounded ">
           <Image
             src="/images/home/frame1.svg"
@@ -151,14 +179,19 @@ export default function Home() {
           objectFit="cover" // change to suit your needs
           className="rounded " // just an example
         />
-        <div className="absolute flex space-x-4 left-1/2 top-1/2">
-          <button className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-full ">
-            Add your business
-          </button>
+        <div className="absolute space-y-2 lg:left-1/2 top-1/3">
+          <p className="px-4 font-bold text-black  lg:text-2xl">
+            Ready to get started with CanabisMap?
+          </p>
+          <div className="flex justify-center space-x-4 ">
+            <button className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-full ">
+              Add your business
+            </button>
 
-          <button className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white rounded-full ">
-            Contact us
-          </button>
+            <button className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white rounded-full ">
+              Contact us
+            </button>
+          </div>
         </div>
       </div>
     </div>
