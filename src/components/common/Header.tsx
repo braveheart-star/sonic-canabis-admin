@@ -227,16 +227,16 @@ function RenderDesktop(props: DesktopProps) {
           <p className="font-semibold text-gray-800 ">Support</p>
         </button>
         <Link href="/dashboard">
-          <button className="px-4 py-1 font-bold bg-yellow-500 rounded-xl focus:ring-1 focus:outline-none ring-yellow-600">
+          <button className="px-4 py-2 font-bold bg-yellow-500 rounded-xl focus:ring-1 focus:outline-none ring-yellow-600">
             <p className="font-semibold text-white ">Dashboard</p>
           </button>
         </Link>
         {!true ? (
-          <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+          <button className="px-4 py-2 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
             <p className="font-semibold text-white ">Log in</p>
           </button>
         ) : (
-          <button className="px-4 py-1 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+          <button className="px-4 py-2 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
             <p className="font-semibold text-white ">Log out</p>
           </button>
         )}
