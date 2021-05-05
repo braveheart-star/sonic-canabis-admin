@@ -290,6 +290,10 @@ export default function EnhancedTable() {
     event: React.MouseEvent<unknown>,
     property: keyof Data
   ) => {
+    console.log(
+      "🚀 ~ file: ProductTable.tsx ~ line 293 ~ EnhancedTable ~ event",
+      event
+    );
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -305,6 +309,10 @@ export default function EnhancedTable() {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    console.log(
+      "🚀 ~ file: ProductTable.tsx ~ line 312 ~ handleClick ~ event",
+      event
+    );
     const selectedIndex = selected.indexOf(name);
     let newSelected: string[] = [];
 
@@ -325,6 +333,10 @@ export default function EnhancedTable() {
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log(
+      "🚀 ~ file: ProductTable.tsx ~ line 336 ~ handleChangePage ~ event",
+      event
+    );
     setPage(newPage);
   };
 
