@@ -228,15 +228,12 @@ export const MobileDrop = (props: MobileDropInterface) => {
                 </div>
               )}
             </div>
-            <div className="flex items-center space-x-2">
-              <p className="font-bold ">Add your business</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <p className="font-bold ">Contact us</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <p className="font-bold ">Support</p>
-            </div>
+            <p className="font-bold ">Add your business</p>
+            <p className="font-bold ">Contact us</p>
+            <p className="font-bold ">Support</p>
+            <Link href="/dashboard">
+              <p className="font-bold ">Dashboard</p>
+            </Link>
           </div>
         </div>
       </div>
