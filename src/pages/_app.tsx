@@ -1,7 +1,7 @@
 import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { Layout } from "../components/common/Layout";
+import { motion } from "framer-motion";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
@@ -15,9 +15,13 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
       </Head>
-      <Layout>
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <Component {...pageProps} />
-      </Layout>
+      </motion.main>
     </div>
   );
 }
