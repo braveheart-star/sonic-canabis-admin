@@ -1,9 +1,11 @@
+import useSWR from "swr";
 import Link from "next/link";
 import React, { useState } from "react";
 import Select from "react-select";
 import ImageUploading from "react-images-uploading";
 
 import { AdminLayout } from "../../components/common/AdminLayout";
+import fetcher from "../../lib/fetcher";
 
 const categories = [
   { value: "vape", label: "Vape Pens" },
@@ -73,6 +75,9 @@ export default function addProduct() {
     setSubCategory(subCategory);
   }
 
+  const { data } = useSWR("/user/self", fetcher);
+  console.log("🚀 ~ file: add.tsx ~ line 80 ~ handleTest ~ data", data);
+
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit
     console.log(imageList, addUpdateIndex);
@@ -95,7 +100,6 @@ export default function addProduct() {
             <span>Products</span>
           </button>
         </Link>
-
         <p className="text-2xl font-bold lg:text-4xl ">Add new product</p>
         <div className="w-full mt-8 ">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-4 lg:gap-y-0">
@@ -239,20 +243,20 @@ export default function addProduct() {
               </div>
               <div className="p-4 space-y-4 bg-white border xl:p-8">
                 <p className="text-lg font-bold ">Pricing , Weight</p>
-                <div className="grid space-y-2 sm:grid-cols-3 gap-x-4 sm:space-y-0">
+                <div className="grid space-y-2 lg:grid-cols-3 gap-x-4 lg:space-y-0">
                   <div className="space-y-1 ">
                     <p className="text-sm text-gray-500 lg:text-base">
                       Price per Weight
                     </p>
-                    <input className="px-2 py-1 bg-gray-100 border rounded" />
+                    <input className="w-full px-2 py-1 bg-gray-100 border rounded" />
                   </div>
                   <div className="space-y-1 ">
                     <p className="text-sm text-gray-500 lg:text-base">Weight</p>
-                    <input className="px-2 py-1 bg-gray-100 border rounded" />
+                    <input className="w-full px-2 py-1 bg-gray-100 border rounded" />
                   </div>
                   <div className="space-y-1 ">
                     <p className="text-sm text-gray-500 lg:text-base">Unit</p>
-                    <input className="px-2 py-1 bg-gray-100 border rounded" />
+                    <input className="w-full px-2 py-1 bg-gray-100 border rounded" />
                   </div>
                 </div>
               </div>
