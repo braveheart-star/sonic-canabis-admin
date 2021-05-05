@@ -231,7 +231,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Canabis Products
         </Typography>
       )}
       {numSelected > 0 ? (
