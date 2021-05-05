@@ -104,7 +104,7 @@ export default function Home() {
           alt="Picture of the author"
           layout="fill" // required
           objectFit="cover" // change to suit your needs
-          className="rounded " // just an example
+          className="" // just an example
         />
         <div className="absolute text-black lg:left-1/2 top-1/4 lg:top-1/3">
           <p className="text-3xl font-bold tracking-wider">
@@ -120,58 +120,52 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 gap-2 mt-4 lg:grid-cols-3">
-        <div className="relative flex w-full h-56 rounded ">
+        <div className="flex-shrink-0">
           <Image
-            src="/images/home/frame1.svg"
-            alt="Picture of the author"
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded " // just an example
+            src="/images/home/frame1.png"
+            alt="logo"
+            width={2000}
+            height={1300}
           />
         </div>
-        <div className="relative flex w-full h-56 rounded ">
+        <div className="flex-shrink-0">
           <Image
-            src="/images/home/frame2.svg"
-            alt="Picture of the author"
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded " // just an example
+            src="/images/home/frame2.png"
+            alt="logo"
+            width={2000}
+            height={1300}
           />
         </div>
-        <div className="relative flex w-full h-56 rounded ">
+        <div className="flex-shrink-0">
           <Image
-            src="/images/home/frame3.svg"
-            alt="Picture of the author"
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded " // just an example
+            src="/images/home/frame3.png"
+            alt="logo"
+            width={2000}
+            height={1300}
           />
         </div>
-        <div className="relative flex w-full h-56 rounded ">
+        <div className="flex-shrink-0">
           <Image
-            src="/images/home/frame4.svg"
-            alt="Picture of the author"
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded " // just an example
+            src="/images/home/frame4.png"
+            alt="logo"
+            width={2000}
+            height={1300}
           />
         </div>
-        <div className="relative flex w-full h-56 rounded ">
+        <div className="flex-shrink-0">
           <Image
-            src="/images/home/frame5.svg"
-            alt="Picture of the author"
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded " // just an example
+            src="/images/home/frame5.png"
+            alt="logo"
+            width={2000}
+            height={1300}
           />
         </div>
-        <div className="relative flex w-full h-56 rounded ">
+        <div className="flex-shrink-0">
           <Image
-            src="/images/home/frame6.svg"
-            alt="Picture of the author"
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded " // just an example
+            src="/images/home/frame6.png"
+            alt="logo"
+            width={2000}
+            height={1300}
           />
         </div>
       </div>
