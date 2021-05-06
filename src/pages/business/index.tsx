@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Select from "react-select";
+import Swal from "sweetalert2";
 
-import { selectStyles } from "../../utils/global";
 import { Layout } from "../../components/common/Layout";
+import { selectStyles } from "../../utils/global";
+import { RegisterPayload } from "../../utils/type";
+import AdminAPI from "../../lib/adminApi";
 
 const businessRole = [
   { value: "advertising", label: "Advertising Manager" },
@@ -51,16 +54,91 @@ export default function business() {
 
   function handleSelectBusinessRole(role: any) {
     setBusinessRole(role);
+    setRegisterPayload({
+      ...registerPayload,
+      businessRole: role.value,
+    });
   }
 
-  function handleSelectBusinessType(role: any) {
-    setBusinessType(role);
+  function handleSelectBusinessType(type: any) {
+    setBusinessType(type);
+    setRegisterPayload({
+      ...registerPayload,
+      businessType: type.value,
+    });
   }
-  function handleCountrySelect(role: any) {
-    setCountrySelect(role);
+  function handleCountrySelect(country: any) {
+    setCountrySelect(country);
+    setAddress({
+      ...address,
+      country: country.value,
+    });
   }
-  function handleSelectLicenseType(role: any) {
-    setLicenseType(role);
+
+  function handleSelectLicenseType(type: any) {
+    setLicenseType(type);
+    setRegisterPayload({
+      ...registerPayload,
+      licenseType: type.value,
+    });
+  }
+  const [address, setAddress] = useState({
+    country: "",
+    state: "",
+    city: "",
+    postal: "",
+  });
+
+  const [registerPayload, setRegisterPayload] = useState<RegisterPayload>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    businessRole: "",
+    businessName: "",
+    businessType: "",
+    address: address,
+    website: "",
+    licenseNumber: "",
+    licenseExpiration: "",
+    licenseType: "",
+  });
+
+  async function handleRegister() {
+    try {
+      const { data, status } = await AdminAPI.register(registerPayload);
+
+      if (status !== 200 || data?.error) {
+        Swal.fire("Error", data.message, "error");
+      }
+      if (data?.admin) {
+        Swal.fire(
+          "Info",
+          "Successfully submitted ! We will contact you after review.",
+          "info"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleOnSetValue(event: any) {
+    setRegisterPayload({
+      ...registerPayload,
+      [event.target.name]: event.target.value.trim(),
+    });
+  }
+
+  function handleSetAddress(event: any) {
+    setAddress({
+      ...address,
+      [event.target.name]: event.target.value.trim(),
+    });
+    setRegisterPayload({
+      ...registerPayload,
+      address,
+    });
   }
 
   return (
@@ -104,21 +182,37 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">First name</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="firstName"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>Last name</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="lastName"
+                  onChange={handleOnSetValue}
+                />
               </div>
             </div>
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Phone number</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="phone"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>Email</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="email"
+                  onChange={handleOnSetValue}
+                />
               </div>
             </div>
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
@@ -138,7 +232,11 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Business name</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="businessName"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>Business type</p>
@@ -172,22 +270,38 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">City</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="city"
+                  onChange={handleSetAddress}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>State/Province</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="state"
+                  onChange={handleSetAddress}
+                />
               </div>
             </div>
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Postal code</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="postal"
+                  onChange={handleSetAddress}
+                />
               </div>
             </div>
             <div className="space-y-1 text-sm">
               <p className="">Website</p>
-              <input className="w-full px-3 py-2 border " />
+              <input
+                className="w-full px-3 py-2 border "
+                name="website"
+                onChange={handleOnSetValue}
+              />
             </div>
           </div>
           <div className="space-y-2 lg:space-y-4 ">
@@ -195,7 +309,11 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">License number</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="licenseNumber"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p className="">License type</p>
@@ -210,7 +328,11 @@ export default function business() {
             <div className="grid sm:gap-x-2 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Expiration</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="licenseExpiration"
+                  onChange={handleOnSetValue}
+                />
               </div>
             </div>
           </div>
@@ -270,7 +392,10 @@ export default function business() {
               I have read and agree to the above terms and conditionss
             </p>
           </div>
-          <button className="w-full py-2 text-sm font-bold text-white bg-cyan-500 ">
+          <button
+            onClick={handleRegister}
+            className="w-full py-2 text-sm font-bold text-white bg-cyan-500 "
+          >
             Add Business
           </button>
         </div>

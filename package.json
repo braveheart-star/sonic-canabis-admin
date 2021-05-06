@@ -20,6 +20,7 @@
     "react-images-uploading": "^3.1.2",
     "react-select": "^4.3.0",
     "react-toastify": "^7.0.4",
+    "sweetalert2": "^10.16.7",
     "swr": "^0.5.5"
   },
   "devDependencies": {
