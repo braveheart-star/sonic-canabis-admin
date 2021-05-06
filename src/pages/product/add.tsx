@@ -95,15 +95,14 @@ export default function addProduct() {
 
   async function handleUploadProduct() {
     try {
-      const { data, status } = await productApi.uploadImage(
-        images[0].file,
-        token
-      );
+      const { data, status } = await productApi.upload(productPayload, token);
+
       if (status !== 200 || data?.error) {
         Swal.fire("Error", data.message, "error");
       }
       if (status === 200) {
         Swal.fire("Success", "Successfully submitted ! ", "success");
+        await productApi.uploadImage(images[0].file, token, data.id);
       }
     } catch (error) {
       console.error(error);
@@ -180,7 +179,6 @@ export default function addProduct() {
               <div className="p-4 space-y-4 bg-white border xl:p-8">
                 <p className="text-lg font-bold">Images</p>
 
-                <input type="file" className="w-24 h-24 border " />
                 <div className="flex ">
                   <div className="m-auto text-center">
                     <ImageUploading
