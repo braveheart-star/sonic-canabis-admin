@@ -50,7 +50,7 @@ const edibleOptions = [
 export default function addProduct() {
   const { data: token } = useSWR("accessToken", storage);
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<any[]>([]);
 
   const [category, setCategory] = useState(null);
   const [subCategory, setSubCategory] = useState(null);
@@ -71,9 +71,7 @@ export default function addProduct() {
     });
   }
 
-  const onChange = (imageList: any, addUpdateIndex: any) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
+  const onChange = (imageList: any) => {
     setImages(imageList);
   };
 
@@ -97,8 +95,10 @@ export default function addProduct() {
 
   async function handleUploadProduct() {
     try {
-      const { data, status } = await productApi.upload(productPayload, token);
-
+      const { data, status } = await productApi.uploadImage(
+        images[0].file,
+        token
+      );
       if (status !== 200 || data?.error) {
         Swal.fire("Error", data.message, "error");
       }
@@ -180,6 +180,7 @@ export default function addProduct() {
               <div className="p-4 space-y-4 bg-white border xl:p-8">
                 <p className="text-lg font-bold">Images</p>
 
+                <input type="file" className="w-24 h-24 border " />
                 <div className="flex ">
                   <div className="m-auto text-center">
                     <ImageUploading
