@@ -1,11 +1,9 @@
-import useSWR from "swr";
 import Link from "next/link";
 import React, { useState } from "react";
 import Select from "react-select";
 import ImageUploading from "react-images-uploading";
 
 import { AdminLayout } from "../../components/common/AdminLayout";
-import fetcher from "../../lib/fetcher";
 
 const categories = [
   { value: "vape", label: "Vape Pens" },
@@ -74,9 +72,6 @@ export default function addProduct() {
   function handleSelectSubCategory(subCategory: any) {
     setSubCategory(subCategory);
   }
-
-  const { data } = useSWR("/user/self", fetcher);
-  console.log("🚀 ~ file: add.tsx ~ line 80 ~ handleTest ~ data", data);
 
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit

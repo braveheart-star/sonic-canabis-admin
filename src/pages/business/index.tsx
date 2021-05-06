@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Select from "react-select";
+
+import { selectStyles } from "../../utils/global";
 import { Layout } from "../../components/common/Layout";
 
 const businessRole = [
@@ -14,11 +16,51 @@ const businessRole = [
   { value: "other", label: "Other" },
 ];
 
+const businessType = [
+  { value: "brand", label: "Brand" },
+  { value: "cbdStore", label: "CBD Store" },
+  { value: "dispensary", label: "Dispensary" },
+  { value: "delivery", label: "Delivery" },
+  { value: "doctor", label: "Doctor" },
+];
+
+const licenseType = [
+  { value: "adultCultivation", label: "Adult-Use Cultivation" },
+  { value: "adultMfg", label: "Adult-Use Mfg." },
+  { value: "Nonstorefront", label: "Adult-Use Nonstorefront" },
+  { value: "retail", label: "Adult-Use Retail" },
+  { value: "distributer", label: " Distributer" },
+  { value: "event", label: "Event" },
+  { value: "medicalCultivation", label: "Medical Cultivation" },
+  { value: "medicalMfg", label: "Medical Mfg." },
+  { value: "medicalRetail", label: "Medical Retail" },
+  { value: "micro", label: " Microbusiness" },
+  { value: "testing", label: " Testing Lab" },
+];
+
+const countryOptions = [
+  { value: "usa", label: "United Stated" },
+  { value: "canada", label: "Canada" },
+];
+
 export default function business() {
   const [businessRole, setBusinessRole] = useState(null);
+  const [businessType, setBusinessType] = useState(null);
+  const [countrySelect, setCountrySelect] = useState(null);
+  const [licenseType, setLicenseType] = useState(null);
 
-  function handleSelectRole(role: any) {
+  function handleSelectBusinessRole(role: any) {
     setBusinessRole(role);
+  }
+
+  function handleSelectBusinessType(role: any) {
+    setBusinessType(role);
+  }
+  function handleCountrySelect(role: any) {
+    setCountrySelect(role);
+  }
+  function handleSelectLicenseType(role: any) {
+    setLicenseType(role);
   }
 
   return (
@@ -43,10 +85,13 @@ export default function business() {
             <p className="font-bold text-black lg:text-lg ">
               Add your business
             </p>
-            <p className="text-sm ">
+            <p className="text-sm">
               Complete and submit the form below. Your business will appear on
-              Weedmaps after our account team contacts you and verifies the
-              information.
+              Weedmaps
+              <span className="mx-1 font-semibold ">
+                after our account team contacts you
+              </span>
+              and verifies the information.
             </p>
             <p className="text-sm ">
               If you are submitting this application on behalf of a company or
@@ -80,9 +125,9 @@ export default function business() {
               <div className="space-y-1 text-sm">
                 <p className="">Business role</p>
                 <div className="border ">
-                  <BusinessSelect
+                  <BusinessRoleSelect
                     value={businessRole}
-                    onChange={handleSelectRole}
+                    onChange={handleSelectBusinessRole}
                   />
                 </div>
               </div>
@@ -98,9 +143,9 @@ export default function business() {
               <div className="space-y-1 text-sm">
                 <p>Business type</p>
                 <div className="border ">
-                  <BusinessSelect
-                    value={businessRole}
-                    onChange={handleSelectRole}
+                  <BusinessTypeSelect
+                    value={businessType}
+                    onChange={handleSelectBusinessType}
                   />
                 </div>
               </div>
@@ -109,9 +154,9 @@ export default function business() {
               <div className="space-y-1 text-sm">
                 <p className="">Country</p>
                 <div className="border ">
-                  <BusinessSelect
-                    value={businessRole}
-                    onChange={handleSelectRole}
+                  <CountrySelect
+                    value={countrySelect}
+                    onChange={handleCountrySelect}
                   />
                 </div>
               </div>
@@ -155,9 +200,9 @@ export default function business() {
               <div className="space-y-1 text-sm">
                 <p className="">License type</p>
                 <div className="border ">
-                  <BusinessSelect
-                    value={businessRole}
-                    onChange={handleSelectRole}
+                  <LicenseSelect
+                    value={licenseType}
+                    onChange={handleSelectLicenseType}
                   />
                 </div>
               </div>
@@ -225,7 +270,7 @@ export default function business() {
               I have read and agree to the above terms and conditionss
             </p>
           </div>
-          <button className="w-full py-2 text-sm font-bold text-white bg-green-500 ">
+          <button className="w-full py-2 text-sm font-bold text-white bg-cyan-500 ">
             Add Business
           </button>
         </div>
@@ -234,34 +279,57 @@ export default function business() {
   );
 }
 
-interface businessProps {
+interface selectProps {
   value: any;
   onChange: Function;
 }
 
-const BusinessSelect = (props: businessProps) => {
+const BusinessRoleSelect = (props: selectProps) => {
   const { value, onChange } = props;
-  const styles = {
-    control: (provided: any) => ({
-      ...provided,
-      height: "100%",
-      padding: "0 0 0 10px",
-      border: 0,
-      boxShadow: "none",
-    }),
-    option: (provided: any, state: { isSelected: any }) => ({
-      ...provided,
-      paddingLeft: "20px",
-      paddingRight: "20px",
-      color: !state.isSelected ? "#838eab" : "#fff",
-      background: !state.isSelected && "none",
-      cursor: "pointer",
-    }),
-  };
+
   return (
     <Select
-      styles={styles}
+      styles={selectStyles}
       options={businessRole}
+      onChange={(e: any) => onChange(e)}
+      value={value}
+    />
+  );
+};
+
+const BusinessTypeSelect = (props: selectProps) => {
+  const { value, onChange } = props;
+
+  return (
+    <Select
+      styles={selectStyles}
+      options={businessType}
+      onChange={(e: any) => onChange(e)}
+      value={value}
+    />
+  );
+};
+
+const CountrySelect = (props: selectProps) => {
+  const { value, onChange } = props;
+
+  return (
+    <Select
+      styles={selectStyles}
+      options={countryOptions}
+      onChange={(e: any) => onChange(e)}
+      value={value}
+    />
+  );
+};
+
+const LicenseSelect = (props: selectProps) => {
+  const { value, onChange } = props;
+
+  return (
+    <Select
+      styles={selectStyles}
+      options={licenseType}
       onChange={(e: any) => onChange(e)}
       value={value}
     />
