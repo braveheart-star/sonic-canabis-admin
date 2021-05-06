@@ -46,7 +46,7 @@ const countryOptions = [
   { value: "canada", label: "Canada" },
 ];
 
-export default function business() {
+export default function register() {
   const [businessRole, setBusinessRole] = useState(null);
   const [businessType, setBusinessType] = useState(null);
   const [countrySelect, setCountrySelect] = useState(null);

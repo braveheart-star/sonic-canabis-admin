@@ -22,6 +22,28 @@ const AdminAPI = {
       return error.response;
     }
   },
+
+  login: async (email: string, password: string) => {
+    try {
+      const response = await axios.post(
+        "/api/admin/login",
+        JSON.stringify({ email, password }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(
+        "🚀 ~ file: adminApi.tsx ~ line 37 ~ login: ~ response",
+        response
+      );
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
 };
 
 export default AdminAPI;

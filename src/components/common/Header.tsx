@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import useSWR from "swr";
 
 import { MobileDrop } from "../MobileDrop";
 import { Maybe } from "../../components/common/Maybe";
+import storage from "../../utils/storage";
+import checkLogin from "../../utils/checkLogin";
 
 export const Header = () => {
+  const { data: accessToken } = useSWR("accessToken", storage);
+  const isLoggedIn = checkLogin(accessToken);
+
   const [menuDrop, setMenuDrop] = useState(false);
   const [solutionDrop, setSolutionDrop] = useState(false);
   const [productDrop, setProductDrop] = useState(false);
@@ -51,6 +57,7 @@ export const Header = () => {
             setProductDrop={setProductDrop}
             solutionDrop={solutionDrop}
             productDrop={productDrop}
+            isLoggedIn={isLoggedIn}
           />
         </div>
         <MobileDrop menuDrop={menuDrop} setDropdown={setMenuDrop} />
@@ -162,9 +169,16 @@ interface DesktopProps {
   solutionDrop: boolean;
   setProductDrop: Function;
   productDrop: boolean;
+  isLoggedIn: boolean;
 }
 function RenderDesktop(props: DesktopProps) {
-  const { setSolutionDrop, setProductDrop, solutionDrop, productDrop } = props;
+  const {
+    setSolutionDrop,
+    setProductDrop,
+    solutionDrop,
+    productDrop,
+    isLoggedIn,
+  } = props;
   return (
     <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
       <div className="flex items-center space-x-5">
@@ -226,19 +240,25 @@ function RenderDesktop(props: DesktopProps) {
         <button className="flex items-center space-x-1 focus:outline-none">
           <p className="font-semibold text-white ">Support</p>
         </button>
-        <Link href="/dashboard">
-          <button className="px-4 py-2 font-bold bg-yellow-500 rounded-xl focus:ring-1 focus:outline-none ring-yellow-600">
-            <p className="font-semibold text-white ">Dashboard</p>
-          </button>
-        </Link>
-        {!true ? (
-          <button className="px-4 py-2 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
-            <p className="font-semibold text-white ">Log in</p>
-          </button>
+
+        {!isLoggedIn ? (
+          <Link href="/business/login">
+            <button className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+              <p className="font-semibold text-white ">Log in</p>
+            </button>
+          </Link>
         ) : (
-          <button className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600">
-            <p className="font-semibold text-white ">Log out</p>
-          </button>
+          <>
+            <Link href="/dashboard">
+              <button className="px-4 py-2 font-bold bg-yellow-500 rounded-xl focus:ring-1 focus:outline-none ring-yellow-600">
+                <p className="font-semibold text-white ">Dashboard</p>
+              </button>
+            </Link>
+
+            <button className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+              <p className="font-semibold text-white ">Log out</p>
+            </button>
+          </>
         )}
       </div>
     </div>
