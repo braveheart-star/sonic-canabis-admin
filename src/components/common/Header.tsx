@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 import { MobileDrop } from "../MobileDrop";
 import { Maybe } from "../../components/common/Maybe";
-import storage from "../../utils/storage";
 import checkLogin from "../../utils/checkLogin";
+import storage from "../../utils/storage";
 
 export const Header = () => {
   const { data: accessToken } = useSWR("accessToken", storage);
@@ -15,13 +15,6 @@ export const Header = () => {
   const [menuDrop, setMenuDrop] = useState(false);
   const [solutionDrop, setSolutionDrop] = useState(false);
   const [productDrop, setProductDrop] = useState(false);
-
-  // useEffect((): any => {
-  //   if (menuDrop) {
-  //     document.body.style.position = "fixed";
-  //   } else document.body.style.position = "inherit";
-  //   return () => (document.body.style.position = "inherit");
-  // }, [menuDrop]);
 
   return (
     <div className="bg-green-500 ">
@@ -179,6 +172,11 @@ function RenderDesktop(props: DesktopProps) {
     productDrop,
     isLoggedIn,
   } = props;
+
+  const handleLogout = async () => {
+    window.localStorage.removeItem("accessToken");
+    mutate("accessToken", "");
+  };
   return (
     <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
       <div className="flex items-center space-x-5">
@@ -255,7 +253,10 @@ function RenderDesktop(props: DesktopProps) {
               </button>
             </Link>
 
-            <button className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600"
+            >
               <p className="font-semibold text-white ">Log out</p>
             </button>
           </>

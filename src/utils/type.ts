@@ -19,6 +19,26 @@ interface Address {
   city: string;
   postal: string;
 }
+
+export interface ProductPayload {
+  title: string;
+
+  description: string;
+
+  price: string;
+
+  weight: string;
+
+  unit: string;
+
+  // quantity: string;
+
+  category: string;
+
+  subCategory: string;
+
+  // image: string;
+}
 export enum NotifyStatus {
   success,
   error,

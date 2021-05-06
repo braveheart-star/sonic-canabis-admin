@@ -37,6 +37,9 @@ export default function login() {
         "accessToken",
         JSON.stringify(data.access_token)
       );
+
+      const token = window.localStorage.getItem("accessToken");
+
       mutate("accessToken", data.access_token);
       Router.push("/");
     }
