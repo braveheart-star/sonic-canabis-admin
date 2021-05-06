@@ -1,8 +1,8 @@
 import React from "react";
-import Demo from "../../components/ProductTable";
 
 import { AdminLayout } from "../../components/common/AdminLayout";
 import Link from "next/link";
+import { MockPage } from "../../components/ProductTable";
 
 export default function dashboard() {
   return (
@@ -39,7 +39,8 @@ export default function dashboard() {
               className="w-full focus:outline-none"
             />
           </div>
-          <Demo />
+          <MockPage />
+          {/* <Demo /> */}
         </div>
       </div>
     </AdminLayout>
