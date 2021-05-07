@@ -1,22 +1,22 @@
 import React from "react";
+import Image from "next/image";
 
 export const DemoTable = (props: any) => {
   const { tableData } = props;
 
   const items = tableData?.data?.items;
+  console.log("🚀 ~ file: Table.tsx ~ line 7 ~ DemoTable ~ items", items);
   return (
     <div className="w-full overflow-x-auto border rounded whitespace-nowrap">
       <div className="w-full text-xs text-center bg-gray-100 shadow min-w-max ">
-        {renderTableHeader(tableHeader)}
+        {renderTableHeader()}
         {items && renderTableBody(items)}
       </div>
     </div>
   );
 };
 
-const tableHeader = ["", "", "", "", ""];
-
-function renderTableHeader(header: string[]) {
+function renderTableHeader() {
   return (
     <div className="flex items-center flex-shrink-0 p-2 space-x-1 text-sm text-gray-500 bg-gray-100 ">
       <div className="flex-shrink-0 w-10 ">
@@ -53,9 +53,26 @@ function renderTableBody(data: any) {
               <input type="checkbox" />
             </div>
 
-            <div className="grid w-full grid-cols-10 font-semibold uppercase ">
+            <div className="grid items-center w-full grid-cols-10 font-semibold uppercase ">
               <div className="p-1 px-2 ">{item.id}</div>
-              <div className="p-1 px-2 ">{2}</div>
+              <div className="p-1 px-2 ">
+                <div className="flex-shrink-0 w-16 h-16 mx-auto cursor-pointer ">
+                  {/* <img
+                    src={item.filename}
+                    alt="logo"
+                    className="w-full h-full "
+                  /> */}
+
+                  {item.filename?.length > 0 && (
+                    <Image
+                      src={`http://canabismap.imgix.net/${item.filename}`}
+                      alt="logo"
+                      width={2000}
+                      height={2000}
+                    />
+                  )}
+                </div>
+              </div>
               <div className="col-span-2 p-1 px-2">{item.title}</div>
               <div className="p-1 px-2 ">{item.price}</div>
               <div className="p-1 px-2 ">{item.category}</div>
