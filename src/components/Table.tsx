@@ -57,12 +57,6 @@ function renderTableBody(data: any) {
               <div className="p-1 px-2 ">{item.id}</div>
               <div className="p-1 px-2 ">
                 <div className="flex-shrink-0 w-16 h-16 mx-auto cursor-pointer ">
-                  {/* <img
-                    src={item.filename}
-                    alt="logo"
-                    className="w-full h-full "
-                  /> */}
-
                   {item.filename?.length > 0 && (
                     <Image
                       src={`http://canabismap.imgix.net/${item.filename}`}

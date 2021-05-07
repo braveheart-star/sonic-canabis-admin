@@ -26,7 +26,7 @@ export default function product() {
           </Link>
         </div>
         <div className="w-full p-4 mt-8 border sm:space-y-4 lg:space-y-8 ">
-          <div className="flex items-center max-w-sm px-4 py-1 space-x-2 bg-white border rounded-full">
+          <div className="flex items-center max-w-sm px-4 py-2 space-x-2 bg-white border rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"

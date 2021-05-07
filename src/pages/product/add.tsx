@@ -220,11 +220,11 @@ export default function addProduct() {
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20"
-                                    className="w-4 h-4 text-green-500 fill-current"
+                                    className="w-4 h-4 text-gray-400 fill-current"
                                   >
                                     <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
                                   </svg>
-                                  <p className="text-green-500 ">
+                                  <p className="font-semibold text-gray-400 ">
                                     Upload images
                                   </p>
                                 </button>
