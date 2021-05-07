@@ -7,7 +7,7 @@ export const DemoTable = (props: any) => {
   const items = tableData?.data?.items;
   console.log("🚀 ~ file: Table.tsx ~ line 7 ~ DemoTable ~ items", items);
   return (
-    <div className="w-full overflow-x-auto border rounded whitespace-nowrap">
+    <div className="w-full overflow-x-auto border rounded ">
       <div className="w-full text-xs text-center bg-gray-100 shadow min-w-max ">
         {renderTableHeader()}
         {items && renderTableBody(items)}
@@ -23,10 +23,10 @@ function renderTableHeader() {
         <input type="checkbox" />
       </div>
 
-      <div className="grid w-full grid-cols-10 font-semibold uppercase ">
+      <div className="grid w-full grid-cols-12 font-semibold uppercase ">
         <div className="p-1 px-2 "> id</div>
         <div className="p-1 px-2 "> image</div>
-        <div className="col-span-2 p-1 px-2 ">title</div>
+        <div className="col-span-4 p-1 px-2 whitespace-pre-wrap">title</div>
         <div className="p-1 px-2 ">price</div>
         <div className="p-1 px-2 ">category</div>
         <div className="p-1 px-2 ">subCategory</div>
@@ -53,7 +53,7 @@ function renderTableBody(data: any) {
               <input type="checkbox" />
             </div>
 
-            <div className="grid items-center w-full grid-cols-10 font-semibold uppercase ">
+            <div className="grid items-center w-full grid-cols-12 font-semibold uppercase ">
               <div className="p-1 px-2 ">{item.id}</div>
               <div className="p-1 px-2 ">
                 <div className="flex-shrink-0 w-16 h-16 mx-auto cursor-pointer ">
@@ -67,7 +67,7 @@ function renderTableBody(data: any) {
                   )}
                 </div>
               </div>
-              <div className="col-span-2 p-1 px-2">{item.title}</div>
+              <div className="col-span-4 p-1 px-2">{item.title}</div>
               <div className="p-1 px-2 ">{item.price}</div>
               <div className="p-1 px-2 ">{item.category}</div>
               <div className="p-1 px-2 ">{item.subCategory}</div>

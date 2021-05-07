@@ -34,10 +34,10 @@ const Pagination = ({
               onPageSizeChange(currentTarget.value);
             }}
           >
-            <option>3</option>
             <option>5</option>
-            <option>7</option>
             <option>10</option>
+            <option>15</option>
+            <option>20</option>
           </select>
         </li>
         {pages.map((page, i) => (

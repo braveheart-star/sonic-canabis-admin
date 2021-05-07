@@ -9,7 +9,7 @@ import productApi from "../lib/productApi";
 export const PaginatedProductTable = () => {
   const { data: token } = useSWR("accessToken", storage);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
 
   const { data } = useSWR(
     [`/api/product/user/?page=${currentPage}&limit=${pageSize}`, token],
