@@ -12,12 +12,6 @@ const productApi = {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(
-        "🚀 ~ file: productApi.ts ~ line 20 ~ upload: ~ response",
-        response
-      );
-
       return response;
     } catch (error) {
       return error.response;
@@ -37,6 +31,20 @@ const productApi = {
           },
         }
       );
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  getProductsByUser: async (...args: any) => {
+    const [url, token] = args;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return response;
     } catch (error) {
