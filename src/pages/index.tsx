@@ -27,7 +27,7 @@ export default function Home() {
               business
             </p>
             <div className="flex justify-center px-4 mt-12 space-x-6 lg:justify-start">
-              <Link href="/business">
+              <Link href="/business/register">
                 <button className="px-4 py-2 font-semibold text-white bg-orange-600 rounded-full">
                   Get started
                 </button>

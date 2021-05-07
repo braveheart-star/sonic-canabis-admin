@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import useSWR, { mutate } from "swr";
 
 import { MobileDrop } from "../MobileDrop";
 import { Maybe } from "../../components/common/Maybe";
+import checkLogin from "../../utils/checkLogin";
+import storage from "../../utils/storage";
 
 export const Header = () => {
+  const { data: accessToken } = useSWR("accessToken", storage);
+  const isLoggedIn = checkLogin(accessToken);
+
   const [menuDrop, setMenuDrop] = useState(false);
   const [solutionDrop, setSolutionDrop] = useState(false);
   const [productDrop, setProductDrop] = useState(false);
 
-  // useEffect((): any => {
-  //   if (menuDrop) {
-  //     document.body.style.position = "fixed";
-  //   } else document.body.style.position = "inherit";
-  //   return () => (document.body.style.position = "inherit");
-  // }, [menuDrop]);
-
   return (
-    <div className="bg-white ">
+    <div className="bg-green-500 ">
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="flex items-center justify-between ">
           <button
@@ -28,7 +27,7 @@ export const Header = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
-              className="w-5 h-5 text-green-600 fill-current "
+              className="w-5 h-5 text-white fill-current "
             >
               <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
             </svg>
@@ -44,13 +43,14 @@ export const Header = () => {
                 />
               </div>
             </Link>
-            <p className="pb-2 font-bold text-green-600">Business</p>
+            <p className="pb-2 font-bold text-white">Business</p>
           </div>
           <RenderDesktop
             setSolutionDrop={setSolutionDrop}
             setProductDrop={setProductDrop}
             solutionDrop={solutionDrop}
             productDrop={productDrop}
+            isLoggedIn={isLoggedIn}
           />
         </div>
         <MobileDrop menuDrop={menuDrop} setDropdown={setMenuDrop} />
@@ -162,9 +162,21 @@ interface DesktopProps {
   solutionDrop: boolean;
   setProductDrop: Function;
   productDrop: boolean;
+  isLoggedIn: boolean;
 }
 function RenderDesktop(props: DesktopProps) {
-  const { setSolutionDrop, setProductDrop, solutionDrop, productDrop } = props;
+  const {
+    setSolutionDrop,
+    setProductDrop,
+    solutionDrop,
+    productDrop,
+    isLoggedIn,
+  } = props;
+
+  const handleLogout = async () => {
+    window.localStorage.removeItem("accessToken");
+    mutate("accessToken", "");
+  };
   return (
     <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
       <div className="flex items-center space-x-5">
@@ -173,12 +185,12 @@ function RenderDesktop(props: DesktopProps) {
             onClick={() => setSolutionDrop(true)}
             className="flex items-center space-x-1 focus:outline-none"
           >
-            <p className="font-semibold text-gray-800 ">Solutions</p>
+            <p className="font-semibold text-white ">Solutions</p>
             {!solutionDrop ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
-                className="w-4 h-4 text-gray-800 fill-current "
+                className="w-4 h-4 text-white fill-current "
               >
                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
               </svg>
@@ -186,7 +198,7 @@ function RenderDesktop(props: DesktopProps) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
-                className="w-4 h-4 text-gray-800 fill-current "
+                className="w-4 h-4 text-white fill-current "
               >
                 <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
               </svg>
@@ -199,12 +211,12 @@ function RenderDesktop(props: DesktopProps) {
             onClick={() => setProductDrop(true)}
             className="flex items-center space-x-1 focus:outline-none"
           >
-            <p className="font-semibold text-gray-800 ">Products</p>
+            <p className="font-semibold text-white ">Products</p>
             {!productDrop ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
-                className="w-4 h-4 text-gray-800 fill-current "
+                className="w-4 h-4 text-white fill-current "
               >
                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
               </svg>
@@ -212,7 +224,7 @@ function RenderDesktop(props: DesktopProps) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
-                className="w-4 h-4 text-gray-800 fill-current "
+                className="w-4 h-4 text-white fill-current "
               >
                 <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
               </svg>
@@ -221,24 +233,33 @@ function RenderDesktop(props: DesktopProps) {
           {productDrop && renderProductDrop()}
         </div>
         <button className="flex items-center space-x-1 focus:outline-none">
-          <p className="font-semibold text-gray-800 ">Contact us</p>
+          <p className="font-semibold text-white ">Contact us</p>
         </button>
         <button className="flex items-center space-x-1 focus:outline-none">
-          <p className="font-semibold text-gray-800 ">Support</p>
+          <p className="font-semibold text-white ">Support</p>
         </button>
-        <Link href="/dashboard">
-          <button className="px-4 py-2 font-bold bg-yellow-500 rounded-xl focus:ring-1 focus:outline-none ring-yellow-600">
-            <p className="font-semibold text-white ">Dashboard</p>
-          </button>
-        </Link>
-        {!true ? (
-          <button className="px-4 py-2 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
-            <p className="font-semibold text-white ">Log in</p>
-          </button>
+
+        {!isLoggedIn ? (
+          <Link href="/business/login">
+            <button className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600">
+              <p className="font-semibold text-white ">Log in</p>
+            </button>
+          </Link>
         ) : (
-          <button className="px-4 py-2 font-bold bg-green-500 rounded-xl focus:ring-1 focus:outline-none ring-green-600">
-            <p className="font-semibold text-white ">Log out</p>
-          </button>
+          <>
+            <Link href="/dashboard">
+              <button className="px-4 py-2 font-bold bg-yellow-500 rounded-xl focus:ring-1 focus:outline-none ring-yellow-600">
+                <p className="font-semibold text-white ">Dashboard</p>
+              </button>
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 font-bold border border-white rounded-xl focus:ring-1 focus:outline-none ring-green-600"
+            >
+              <p className="font-semibold text-white ">Log out</p>
+            </button>
+          </>
         )}
       </div>
     </div>

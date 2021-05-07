@@ -1,9 +1,15 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import useSWR from "swr";
+import Swal from "sweetalert2";
 import Select from "react-select";
 import ImageUploading from "react-images-uploading";
 
+import { selectStyles } from "../../utils/global";
 import { AdminLayout } from "../../components/common/AdminLayout";
+import { ProductPayload } from "../../utils/type";
+import productApi from "../../lib/productApi";
+import storage from "../../utils/storage";
 
 const categories = [
   { value: "vape", label: "Vape Pens" },
@@ -41,43 +47,68 @@ const edibleOptions = [
   { value: "dairy", label: "Dairy Free" },
 ];
 
-const styles = {
-  control: (provided: any) => ({
-    ...provided,
-    height: "100%",
-    padding: "0 0 0 10px",
-    border: 0,
-    boxShadow: "none",
-  }),
-  option: (provided: any, state: { isSelected: any }) => ({
-    ...provided,
-    paddingLeft: "20px",
-    paddingRight: "20px",
-    color: !state.isSelected ? "#838eab" : "#fff",
-    background: !state.isSelected && "none",
-    cursor: "pointer",
-  }),
-};
-
 export default function addProduct() {
-  const [images, setImages] = useState([]);
+  const { data: token } = useSWR("accessToken", storage);
+
+  const [images, setImages] = useState<any[]>([]);
 
   const [category, setCategory] = useState(null);
   const [subCategory, setSubCategory] = useState(null);
 
   function handleSelectCategory(category: any) {
     setCategory(category);
+    setProductPayload({
+      ...productPayload,
+      category: category.value,
+    });
   }
 
   function handleSelectSubCategory(subCategory: any) {
     setSubCategory(subCategory);
+    setProductPayload({
+      ...productPayload,
+      subCategory: subCategory.value,
+    });
   }
 
-  const onChange = (imageList: any, addUpdateIndex: any) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
+  const onChange = (imageList: any) => {
     setImages(imageList);
   };
+
+  const [productPayload, setProductPayload] = useState<ProductPayload>({
+    title: "",
+    description: "",
+    price: "",
+    weight: "",
+    unit: "",
+    category: "",
+    subCategory: "",
+    // image: "",
+  });
+
+  function handleOnSetValue(event: any) {
+    setProductPayload({
+      ...productPayload,
+      [event.target.name]: event.target.value.trim(),
+    });
+  }
+
+  async function handleUploadProduct() {
+    try {
+      const { data, status } = await productApi.upload(productPayload, token);
+
+      if (status !== 200 || data?.error) {
+        Swal.fire("Error", data.message, "error");
+      }
+      if (status === 200) {
+        Swal.fire("Success", "Successfully submitted ! ", "success");
+        await productApi.uploadImage(images[0].file, token, data.id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <AdminLayout>
       <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:py-8 lg:space-y-8 max-w-7xl">
@@ -95,8 +126,15 @@ export default function addProduct() {
             <span>Products</span>
           </button>
         </Link>
-
-        <p className="text-2xl font-bold lg:text-4xl ">Add new product</p>
+        <div className="flex justify-between ">
+          <p className="text-2xl font-bold lg:text-4xl ">Add new product</p>
+          <button
+            onClick={handleUploadProduct}
+            className="px-4 py-2 font-semibold text-white bg-green-500 rounded"
+          >
+            Upload Products
+          </button>
+        </div>
         <div className="w-full mt-8 ">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-4 lg:gap-y-0">
             <div className="space-y-4 lg:col-span-8 lg:space-y-8 ">
@@ -105,14 +143,22 @@ export default function addProduct() {
 
                 <div className="space-y-1 ">
                   <p className="text-sm text-gray-500 lg:text-base">Title</p>
-                  <input className="w-full px-2 py-1 bg-gray-100 border rounded" />
+                  <input
+                    className="w-full px-2 py-1 bg-gray-100 border rounded"
+                    name="title"
+                    onChange={handleOnSetValue}
+                  />
                 </div>
                 <div className="grid grid-rows-2 gap-2 sm:grid-cols-7 ">
                   <div className="space-y-1 sm:row-span-2 sm:col-span-5">
                     <p className="text-sm text-gray-500 lg:text-base">
                       Product Description
                     </p>
-                    <textarea className="w-full px-2 py-1 bg-gray-100 border rounded h-28" />
+                    <textarea
+                      name="description"
+                      onChange={handleOnSetValue}
+                      className="w-full px-2 py-1 bg-gray-100 border rounded h-28"
+                    />
                   </div>
                   <div className="grid sm:col-span-2 sm:grid-rows-2 sm:row-span-2 gap-y-2">
                     <div className="space-y-1 ">
@@ -174,11 +220,11 @@ export default function addProduct() {
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20"
-                                    className="w-4 h-4 text-green-500 fill-current"
+                                    className="w-4 h-4 text-gray-400 fill-current"
                                   >
                                     <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
                                   </svg>
-                                  <p className="text-green-500 ">
+                                  <p className="font-semibold text-gray-400 ">
                                     Upload images
                                   </p>
                                 </button>
@@ -239,20 +285,32 @@ export default function addProduct() {
               </div>
               <div className="p-4 space-y-4 bg-white border xl:p-8">
                 <p className="text-lg font-bold ">Pricing , Weight</p>
-                <div className="grid space-y-2 sm:grid-cols-3 gap-x-4 sm:space-y-0">
+                <div className="grid space-y-2 lg:grid-cols-3 gap-x-4 lg:space-y-0">
                   <div className="space-y-1 ">
                     <p className="text-sm text-gray-500 lg:text-base">
                       Price per Weight
                     </p>
-                    <input className="px-2 py-1 bg-gray-100 border rounded" />
+                    <input
+                      name="price"
+                      onChange={handleOnSetValue}
+                      className="w-full px-2 py-1 bg-gray-100 border rounded"
+                    />
                   </div>
                   <div className="space-y-1 ">
                     <p className="text-sm text-gray-500 lg:text-base">Weight</p>
-                    <input className="px-2 py-1 bg-gray-100 border rounded" />
+                    <input
+                      name="weight"
+                      onChange={handleOnSetValue}
+                      className="w-full px-2 py-1 bg-gray-100 border rounded"
+                    />
                   </div>
                   <div className="space-y-1 ">
                     <p className="text-sm text-gray-500 lg:text-base">Unit</p>
-                    <input className="px-2 py-1 bg-gray-100 border rounded" />
+                    <input
+                      name="unit"
+                      onChange={handleOnSetValue}
+                      className="w-full px-2 py-1 bg-gray-100 border rounded"
+                    />
                   </div>
                 </div>
               </div>
@@ -312,7 +370,7 @@ const CategorySelect = (props: categoryProps) => {
 
   return (
     <Select
-      styles={styles}
+      styles={selectStyles}
       options={categories}
       onChange={(e: any) => onChange(e)}
       value={value}
@@ -344,7 +402,7 @@ function RenderSubCategory(props: subCategoryProps) {
 
   return (
     <Select
-      styles={styles}
+      styles={selectStyles}
       options={getOptions(selectedCategory)}
       onChange={(e: any) => handleChange(e)}
       value={value}

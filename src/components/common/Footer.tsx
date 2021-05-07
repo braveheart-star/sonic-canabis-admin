@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <div className="py-4 pb-6 bg-white border-t">
+    <div className="py-4 pb-6 bg-green-500 border-t">
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="hidden lg:block">{renderDesktop()}</div>
         <div className="lg:hidden">{renderMobile()}</div>
@@ -21,21 +21,21 @@ const renderDesktop = () => (
           <Image src="/images/logo.svg" alt="logo" width={2000} height={2000} />
         </div>
       </Link>
-      <p className="pb-2 font-bold text-green-600">Business</p>
+      <p className="pb-2 font-bold text-white">Business</p>
     </div>
-    <p className="w-full text-sm text-center text-gray-500">
+    <p className="w-full text-sm text-center text-white">
       Copyright © 2021 CannabisMap.
     </p>
     <div>
       <div className="flex items-center justify-center w-full space-x-4 ">
-        <span className="text-sm font-semibold ">
+        <span className="text-sm font-semibold text-white ">
           Sign up for our newsletter
         </span>
         <button className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-full">
           Subscribe
         </button>
       </div>
-      <div className="grid grid-cols-3 mt-4 text-sm text-center text-gray-500 divide-x">
+      <div className="grid grid-cols-3 mt-4 text-sm text-center text-white divide-x">
         <span>Privacy Policy</span>
         <span>Terms of Use</span>
         <span>CannabisMap.com</span>
@@ -56,7 +56,7 @@ const renderMobile = () => (
         </button>
       </div>
     </div>
-    <div className="py-2 space-y-2 text-sm text-center text-gray-600">
+    <div className="py-2 space-y-2 text-sm text-center text-white">
       <p>Privacy Policy</p>
       <p>Terms of Use</p>
       <p>CanabisMap.com</p>

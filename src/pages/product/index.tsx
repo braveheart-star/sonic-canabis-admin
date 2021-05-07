@@ -1,13 +1,13 @@
 import React from "react";
-import Demo from "../../components/ProductTable";
-
-import { AdminLayout } from "../../components/common/AdminLayout";
 import Link from "next/link";
 
-export default function dashboard() {
+import { AdminLayout } from "../../components/common/AdminLayout";
+import { PaginatedProductTable } from "../../components/PaginatedProductTable";
+
+export default function product() {
   return (
     <AdminLayout>
-      <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:py-8 lg:space-y-8 max-w-7xl">
+      <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:py-8 lg:space-y-8 ">
         <div className="flex items-center justify-between ">
           <p className="text-2xl font-bold lg:text-4xl ">Products</p>
           <Link href="/product/add">
@@ -25,8 +25,8 @@ export default function dashboard() {
             </button>
           </Link>
         </div>
-        <div className="w-full p-4 mt-8 space-y-4 bg-white border lg:p-8">
-          <div className="flex items-center max-w-sm px-4 py-1 space-x-2 border rounded-full">
+        <div className="w-full p-4 mt-8 border sm:space-y-4 lg:space-y-8 ">
+          <div className="flex items-center max-w-sm px-4 py-2 space-x-2 bg-white border rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -39,7 +39,9 @@ export default function dashboard() {
               className="w-full focus:outline-none"
             />
           </div>
-          <Demo />
+          <div className="p-6 mt-8 bg-white border ">
+            <PaginatedProductTable />
+          </div>
         </div>
       </div>
     </AdminLayout>

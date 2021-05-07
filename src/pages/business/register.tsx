@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Select from "react-select";
+import Swal from "sweetalert2";
+
 import { Layout } from "../../components/common/Layout";
+import { selectStyles } from "../../utils/global";
+import { RegisterPayload } from "../../utils/type";
+import AdminAPI from "../../lib/adminApi";
 
 const businessRole = [
   { value: "advertising", label: "Advertising Manager" },
@@ -14,11 +19,126 @@ const businessRole = [
   { value: "other", label: "Other" },
 ];
 
-export default function business() {
-  const [businessRole, setBusinessRole] = useState(null);
+const businessType = [
+  { value: "brand", label: "Brand" },
+  { value: "cbdStore", label: "CBD Store" },
+  { value: "dispensary", label: "Dispensary" },
+  { value: "delivery", label: "Delivery" },
+  { value: "doctor", label: "Doctor" },
+];
 
-  function handleSelectRole(role: any) {
+const licenseType = [
+  { value: "adultCultivation", label: "Adult-Use Cultivation" },
+  { value: "adultMfg", label: "Adult-Use Mfg." },
+  { value: "Nonstorefront", label: "Adult-Use Nonstorefront" },
+  { value: "retail", label: "Adult-Use Retail" },
+  { value: "distributer", label: " Distributer" },
+  { value: "event", label: "Event" },
+  { value: "medicalCultivation", label: "Medical Cultivation" },
+  { value: "medicalMfg", label: "Medical Mfg." },
+  { value: "medicalRetail", label: "Medical Retail" },
+  { value: "micro", label: " Microbusiness" },
+  { value: "testing", label: " Testing Lab" },
+];
+
+const countryOptions = [
+  { value: "usa", label: "United Stated" },
+  { value: "canada", label: "Canada" },
+];
+
+export default function register() {
+  const [businessRole, setBusinessRole] = useState(null);
+  const [businessType, setBusinessType] = useState(null);
+  const [countrySelect, setCountrySelect] = useState(null);
+  const [licenseType, setLicenseType] = useState(null);
+
+  function handleSelectBusinessRole(role: any) {
     setBusinessRole(role);
+    setRegisterPayload({
+      ...registerPayload,
+      businessRole: role.value,
+    });
+  }
+
+  function handleSelectBusinessType(type: any) {
+    setBusinessType(type);
+    setRegisterPayload({
+      ...registerPayload,
+      businessType: type.value,
+    });
+  }
+  function handleCountrySelect(country: any) {
+    setCountrySelect(country);
+    setAddress({
+      ...address,
+      country: country.value,
+    });
+  }
+
+  function handleSelectLicenseType(type: any) {
+    setLicenseType(type);
+    setRegisterPayload({
+      ...registerPayload,
+      licenseType: type.value,
+    });
+  }
+  const [address, setAddress] = useState({
+    country: "",
+    state: "",
+    city: "",
+    postal: "",
+  });
+
+  const [registerPayload, setRegisterPayload] = useState<RegisterPayload>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    businessRole: "",
+    businessName: "",
+    businessType: "",
+    address: address,
+    website: "",
+    licenseNumber: "",
+    licenseExpiration: "",
+    licenseType: "",
+  });
+
+  async function handleRegister() {
+    try {
+      const { data, status } = await AdminAPI.register(registerPayload);
+
+      if (status !== 200 || data?.error) {
+        Swal.fire("Error", data.message, "error");
+      }
+      if (data?.admin) {
+        Swal.fire(
+          "Info",
+          "Successfully submitted ! We will contact you after review.",
+          "info"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleOnSetValue(event: any) {
+    setRegisterPayload({
+      ...registerPayload,
+      [event.target.name]: event.target.value.trim(),
+    });
+  }
+
+  function handleSetAddress(event: any) {
+    setAddress({
+      ...address,
+      [event.target.name]: event.target.value.trim(),
+    });
+    setRegisterPayload({
+      ...registerPayload,
+      address,
+    });
   }
 
   return (
@@ -43,10 +163,13 @@ export default function business() {
             <p className="font-bold text-black lg:text-lg ">
               Add your business
             </p>
-            <p className="text-sm ">
+            <p className="text-sm">
               Complete and submit the form below. Your business will appear on
-              Weedmaps after our account team contacts you and verifies the
-              information.
+              Weedmaps
+              <span className="mx-1 font-semibold ">
+                after our account team contacts you
+              </span>
+              and verifies the information.
             </p>
             <p className="text-sm ">
               If you are submitting this application on behalf of a company or
@@ -59,30 +182,46 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">First name</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="firstName"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>Last name</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="lastName"
+                  onChange={handleOnSetValue}
+                />
               </div>
             </div>
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Phone number</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="phone"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>Email</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="email"
+                  onChange={handleOnSetValue}
+                />
               </div>
             </div>
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Business role</p>
                 <div className="border ">
-                  <BusinessSelect
+                  <BusinessRoleSelect
                     value={businessRole}
-                    onChange={handleSelectRole}
+                    onChange={handleSelectBusinessRole}
                   />
                 </div>
               </div>
@@ -93,14 +232,18 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Business name</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="businessName"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>Business type</p>
                 <div className="border ">
-                  <BusinessSelect
-                    value={businessRole}
-                    onChange={handleSelectRole}
+                  <BusinessTypeSelect
+                    value={businessType}
+                    onChange={handleSelectBusinessType}
                   />
                 </div>
               </div>
@@ -109,9 +252,9 @@ export default function business() {
               <div className="space-y-1 text-sm">
                 <p className="">Country</p>
                 <div className="border ">
-                  <BusinessSelect
-                    value={businessRole}
-                    onChange={handleSelectRole}
+                  <CountrySelect
+                    value={countrySelect}
+                    onChange={handleCountrySelect}
                   />
                 </div>
               </div>
@@ -127,22 +270,38 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">City</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="city"
+                  onChange={handleSetAddress}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p>State/Province</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="state"
+                  onChange={handleSetAddress}
+                />
               </div>
             </div>
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Postal code</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="postal"
+                  onChange={handleSetAddress}
+                />
               </div>
             </div>
             <div className="space-y-1 text-sm">
               <p className="">Website</p>
-              <input className="w-full px-3 py-2 border " />
+              <input
+                className="w-full px-3 py-2 border "
+                name="website"
+                onChange={handleOnSetValue}
+              />
             </div>
           </div>
           <div className="space-y-2 lg:space-y-4 ">
@@ -150,14 +309,18 @@ export default function business() {
             <div className="grid sm:gap-x-2 gap-y-1 sm:gap-y-0 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">License number</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="licenseNumber"
+                  onChange={handleOnSetValue}
+                />
               </div>
               <div className="space-y-1 text-sm">
                 <p className="">License type</p>
                 <div className="border ">
-                  <BusinessSelect
-                    value={businessRole}
-                    onChange={handleSelectRole}
+                  <LicenseSelect
+                    value={licenseType}
+                    onChange={handleSelectLicenseType}
                   />
                 </div>
               </div>
@@ -165,7 +328,11 @@ export default function business() {
             <div className="grid sm:gap-x-2 sm:grid-cols-2 ">
               <div className="space-y-1 text-sm">
                 <p className="">Expiration</p>
-                <input className="w-full px-3 py-2 border " />
+                <input
+                  className="w-full px-3 py-2 border "
+                  name="licenseExpiration"
+                  onChange={handleOnSetValue}
+                />
               </div>
             </div>
           </div>
@@ -225,7 +392,10 @@ export default function business() {
               I have read and agree to the above terms and conditionss
             </p>
           </div>
-          <button className="w-full py-2 text-sm font-bold text-white bg-green-500 ">
+          <button
+            onClick={handleRegister}
+            className="w-full py-2 text-sm font-bold text-white bg-cyan-500 "
+          >
             Add Business
           </button>
         </div>
@@ -234,34 +404,57 @@ export default function business() {
   );
 }
 
-interface businessProps {
+interface selectProps {
   value: any;
   onChange: Function;
 }
 
-const BusinessSelect = (props: businessProps) => {
+const BusinessRoleSelect = (props: selectProps) => {
   const { value, onChange } = props;
-  const styles = {
-    control: (provided: any) => ({
-      ...provided,
-      height: "100%",
-      padding: "0 0 0 10px",
-      border: 0,
-      boxShadow: "none",
-    }),
-    option: (provided: any, state: { isSelected: any }) => ({
-      ...provided,
-      paddingLeft: "20px",
-      paddingRight: "20px",
-      color: !state.isSelected ? "#838eab" : "#fff",
-      background: !state.isSelected && "none",
-      cursor: "pointer",
-    }),
-  };
+
   return (
     <Select
-      styles={styles}
+      styles={selectStyles}
       options={businessRole}
+      onChange={(e: any) => onChange(e)}
+      value={value}
+    />
+  );
+};
+
+const BusinessTypeSelect = (props: selectProps) => {
+  const { value, onChange } = props;
+
+  return (
+    <Select
+      styles={selectStyles}
+      options={businessType}
+      onChange={(e: any) => onChange(e)}
+      value={value}
+    />
+  );
+};
+
+const CountrySelect = (props: selectProps) => {
+  const { value, onChange } = props;
+
+  return (
+    <Select
+      styles={selectStyles}
+      options={countryOptions}
+      onChange={(e: any) => onChange(e)}
+      value={value}
+    />
+  );
+};
+
+const LicenseSelect = (props: selectProps) => {
+  const { value, onChange } = props;
+
+  return (
+    <Select
+      styles={selectStyles}
+      options={licenseType}
       onChange={(e: any) => onChange(e)}
       value={value}
     />
