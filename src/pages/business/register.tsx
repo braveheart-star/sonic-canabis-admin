@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import useSWR from "swr";
 import Select from "react-select";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 import { Layout } from "../../components/common/Layout";
 import { selectStyles } from "../../utils/global";
@@ -87,7 +89,16 @@ export default function register() {
     state: "",
     city: "",
     postal: "",
+    latitude: "",
+    longitude: "",
   });
+
+  const {
+    data: position,
+  } = useSWR(
+    "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572",
+    (url: string) => axios(url).then((r) => r.data)
+  );
 
   const [registerPayload, setRegisterPayload] = useState<RegisterPayload>({
     firstName: "",
@@ -103,6 +114,36 @@ export default function register() {
     licenseExpiration: "",
     licenseType: "",
   });
+
+  function handleOnSetValue(event: any) {
+    setRegisterPayload({
+      ...registerPayload,
+      [event.target.name]: event.target.value.trim(),
+    });
+  }
+
+  function handleSetAddress(event: any) {
+    setAddress({
+      ...address,
+      [event.target.name]: event.target.value.trim(),
+    });
+    setRegisterPayload({
+      ...registerPayload,
+      address,
+    });
+  }
+
+  function addMapPosition() {
+    setAddress({
+      ...address,
+      latitude: position?.latitude,
+      longitude: position?.longitude,
+    });
+  }
+
+  useEffect(() => {
+    if (position?.latitude !== undefined) addMapPosition();
+  }, [position?.latitude]);
 
   async function handleRegister() {
     try {
@@ -121,24 +162,6 @@ export default function register() {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  function handleOnSetValue(event: any) {
-    setRegisterPayload({
-      ...registerPayload,
-      [event.target.name]: event.target.value.trim(),
-    });
-  }
-
-  function handleSetAddress(event: any) {
-    setAddress({
-      ...address,
-      [event.target.name]: event.target.value.trim(),
-    });
-    setRegisterPayload({
-      ...registerPayload,
-      address,
-    });
   }
 
   return (
