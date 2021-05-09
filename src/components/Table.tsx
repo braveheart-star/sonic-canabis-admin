@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export const DemoTable = (props: any) => {
   const { tableData } = props;
@@ -57,10 +58,11 @@ function renderTableBody(data: any) {
               <div className="p-1 px-2 ">
                 <div className="flex-shrink-0 w-16 h-16 mx-auto cursor-pointer ">
                   {item.filename?.length > 0 && (
-                    <img
+                    <Image
                       src={`http://canabismap.imgix.net/${item.filename}`}
                       alt="logo"
-                      className="w-full h-full "
+                      width={2000}
+                      height={2000}
                     />
                   )}
                 </div>
