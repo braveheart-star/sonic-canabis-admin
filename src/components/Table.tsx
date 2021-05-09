@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 export const DemoTable = (props: any) => {
   const { tableData } = props;
