@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 import storage from "../utils/storage";
 import Pagination from "./Pagination";
-import { DemoTable } from "./Table";
+import { ProductTable } from "./ProductTable";
 import productApi from "../lib/productApi";
 
 export const PaginatedProductTable = () => {
@@ -26,7 +26,7 @@ export const PaginatedProductTable = () => {
 
   return (
     <div className="">
-      <DemoTable tableData={data} />
+      <ProductTable tableData={data} />
       <div className="mt-4 ">
         <Pagination
           // total items

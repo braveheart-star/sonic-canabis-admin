@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export const DemoTable = (props: any) => {
+export const ProductTable = (props: any) => {
   const { tableData } = props;
 
   const items = tableData?.data?.items;
