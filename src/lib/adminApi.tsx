@@ -3,6 +3,10 @@ import { RegisterPayload } from "../utils/type";
 
 const SERVER_BASE_URL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 axios.defaults.baseURL = SERVER_BASE_URL;
+console.log(
+  "🚀 ~ file: adminApi.tsx ~ line 6 ~ SERVER_BASE_URL",
+  SERVER_BASE_URL
+);
 
 const AdminAPI = {
   register: async (payload: RegisterPayload) => {
