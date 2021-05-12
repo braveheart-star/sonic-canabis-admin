@@ -186,23 +186,15 @@ function RenderDesktop(props: DesktopProps) {
             className="flex items-center space-x-1 focus:outline-none"
           >
             <p className="font-semibold text-white ">Solutions</p>
-            {!solutionDrop ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                className="w-4 h-4 text-white fill-current "
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                className="w-4 h-4 text-white fill-current "
-              >
-                <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-              </svg>
-            )}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                solutionDrop && "rotate-180"
+              }`}
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
           </button>
           {solutionDrop && renderSolutionDrop()}
         </div>
@@ -212,23 +204,15 @@ function RenderDesktop(props: DesktopProps) {
             className="flex items-center space-x-1 focus:outline-none"
           >
             <p className="font-semibold text-white ">Products</p>
-            {!productDrop ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                className="w-4 h-4 text-white fill-current "
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                className="w-4 h-4 text-white fill-current "
-              >
-                <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-              </svg>
-            )}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                productDrop && "rotate-180"
+              }`}
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
           </button>
           {productDrop && renderProductDrop()}
         </div>
