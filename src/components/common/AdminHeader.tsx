@@ -67,21 +67,17 @@ export const AdminHeader = () => {
 function RenderDesktop() {
   return (
     <div className="relative items-center justify-end hidden w-full col-span-2 lg:flex ">
-      <div className="flex items-center space-x-5">
-        <button className="flex items-center space-x-1 focus:outline-none">
-          <p className="font-semibold text-white ">Dashboard</p>
-        </button>
-        <Link href="/product">
-          <button className="flex items-center space-x-1 focus:outline-none">
-            <p className="font-semibold text-white ">Products</p>
-          </button>
+      <div className="flex items-center space-x-5 text-white ">
+        <Link href="/dashboard">
+          <button className="font-semibold ">Dashboard</button>
         </Link>
-        <button className="flex items-center space-x-1 focus:outline-none">
-          <p className="font-semibold text-white ">Orders</p>
-        </button>
-        <button className="flex items-center space-x-1 focus:outline-none">
-          <p className="font-semibold text-white ">Promotions</p>
-        </button>
+        <Link href="/product">
+          <button className="font-semibold ">Products</button>
+        </Link>
+        <button className="font-semibold ">Orders</button>
+        <Link href="/shop">
+          <button className="font-semibold ">Shop</button>
+        </Link>
 
         <button
           // onClick={() => setAccountDrop(true)}

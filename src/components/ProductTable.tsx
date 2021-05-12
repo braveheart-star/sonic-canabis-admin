@@ -5,7 +5,6 @@ export const ProductTable = (props: any) => {
   const { tableData } = props;
 
   const items = tableData?.data?.items;
-  console.log("🚀 ~ file: Table.tsx ~ line 7 ~ DemoTable ~ items", items);
   return (
     <div className="w-full overflow-x-auto border rounded ">
       <div className="w-full text-xs text-center bg-gray-100 shadow min-w-max ">
