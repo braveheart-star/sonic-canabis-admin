@@ -1,14 +1,15 @@
 import axios from "axios";
 import { RegisterPayload } from "../utils/type";
 
-const SERVER_BASE_URL = "https://canabismap.com";
+// const SERVER_BASE_URL = "https://canabismap.com";
+const SERVER_BASE_URL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 axios.defaults.baseURL = SERVER_BASE_URL;
 console.log(
   "🚀 ~ file: adminApi.tsx ~ line 6 ~ SERVER_BASE_URL",
   SERVER_BASE_URL
 );
 
-const AdminAPI = {
+const adminApi = {
   register: async (payload: RegisterPayload) => {
     try {
       const response = await axios.post(
@@ -48,6 +49,21 @@ const AdminAPI = {
       return error.response;
     }
   },
+
+  getAdmin: async (...args: any) => {
+    const [url, token] = args;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
 };
 
-export default AdminAPI;
+export default adminApi;
