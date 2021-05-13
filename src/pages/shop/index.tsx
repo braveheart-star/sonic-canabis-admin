@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useSWR from "swr";
+import Swal from "sweetalert2";
 import ImageUploading from "react-images-uploading";
 
 import {
@@ -13,7 +14,7 @@ import {
 
 import storage from "../../utils/storage";
 import adminApi from "../../lib/adminApi";
-import { TimeLine } from "../../components/TimeLine";
+// import { TimeLine } from "../../components/TimeLine";
 import { AdminLayout } from "../../components/common/AdminLayout";
 import { SocialMedia } from "../../components/SocialMedia";
 
@@ -56,12 +57,23 @@ export default function shop() {
   const { data: token } = useSWR("accessToken", storage);
   const { data: business } = useSWR(
     ["/api/user/self", token],
-    adminApi.getAdmin
+    adminApi.getCurrentAdmin
   );
+  console.log("🚀 ~ file: index.tsx ~ line 59 ~ shop ~ business", business);
 
-  const [activeDay, setActiveDay] = useState(0);
+  const adminId = business?.data?.id;
+
+  // const [activeDay, setActiveDay] = useState(0);
   const [images, setImages] = useState<any[]>([]);
   const [amenities, setAmenities] = useState<string[]>(initAmenities);
+
+  const [shopData, setShopData] = useState({
+    introduction: "",
+    about: "",
+    announcement: "",
+    customers: "",
+    amenity: [...amenities],
+  });
 
   function handleAmenities(amenity: string) {
     if ([...amenities].includes(amenity)) {
@@ -70,11 +82,38 @@ export default function shop() {
     }
     amenities.push(amenity);
     setAmenities([...amenities]);
+    setShopData({
+      ...shopData,
+      amenity: amenities,
+    });
   }
 
-  const onChange = (imageList: any) => {
+  function handleImage(imageList: any) {
     setImages(imageList);
-  };
+  }
+
+  function handleOnSetValue(event: any) {
+    setShopData({
+      ...shopData,
+      [event.target.name]: event.target.value.trim(),
+    });
+  }
+
+  async function handleUpdateProfile() {
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 93 ~ handleOnSetValue ~ shopData",
+      shopData
+    );
+
+    const { data, status } = await adminApi.updateStoreProfile(
+      adminId,
+      shopData,
+      token
+    );
+    if (status !== 200 || data?.error) {
+      Swal.fire("Error", data.message, "error");
+    }
+  }
 
   return (
     <AdminLayout>
@@ -83,7 +122,10 @@ export default function shop() {
           <p className="text-2xl font-bold lg:text-4xl ">
             Manage Store Profile
           </p>
-          <button className="px-3 py-2 font-semibold text-white bg-green-500 rounded">
+          <button
+            onClick={handleUpdateProfile}
+            className="px-3 py-2 font-semibold text-white bg-green-500 rounded"
+          >
             Save Changes
           </button>
         </div>
@@ -92,57 +134,59 @@ export default function shop() {
             <div className="p-4 space-y-4 bg-white xl:p-8">
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Store name</p>
-                <input
-                  readOnly
-                  className="w-full px-3 py-1 border rounded lg:w-1/2 bg-gray-50"
-                  value={business?.data?.businessName}
-                />
+                <p className="w-full px-3 py-1 border rounded lg:w-1/2 bg-gray-50">
+                  {business?.data?.businessName}
+                </p>
               </div>
               <div className="grid grid-cols-1 space-y-2 sm:space-y-0 sm:grid-cols-2 gap-x-4">
                 <div className="space-y-2 ">
                   <p className="text-gray-500 ">Phone</p>
-                  <input
-                    readOnly
-                    className="w-full px-3 py-1 border rounded bg-gray-50"
-                    value={business?.data?.phone}
-                  />
+                  <p className="w-full px-3 py-1 border rounded bg-gray-50">
+                    {business?.data?.phone}
+                  </p>
                 </div>
                 <div className="space-y-2 ">
                   <p className="text-gray-500 ">Email</p>
-                  <input
-                    readOnly
-                    className="w-full px-3 py-1 border rounded bg-gray-50"
-                    value={business?.data?.email}
-                  />
+                  <p className="w-full px-3 py-1 border rounded bg-gray-50">
+                    {business?.data?.email}
+                  </p>
                 </div>
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Address</p>
-                <input
-                  readOnly
-                  className="w-full px-3 py-1 border rounded bg-gray-50"
-                  value={`${business?.data?.address?.city}   ${business?.data?.address?.state}`}
-                />
+                <p className="w-full px-3 py-1 border rounded bg-gray-50">
+                  {`${business?.data?.address?.city}   ${business?.data?.address?.state}`}
+                </p>
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Introduction</p>
                 <textarea
-                  name="description"
+                  onChange={handleOnSetValue}
+                  name="introduction"
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">About us</p>
                 <textarea
+                  onChange={handleOnSetValue}
                   placeholder=" about us ..."
-                  name="description"
+                  name="about"
+                  className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
+                />
+              </div>
+              <div className="space-y-2 ">
+                <p className="text-gray-500 ">Announcement</p>
+                <textarea
+                  onChange={handleOnSetValue}
+                  name="announcement"
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
               </div>
             </div>
             <div className="p-4 space-y-4 bg-white xl:p-8">
               <p className="font-semibold text-gray-700 ">Open Hours</p>
-              <TimeLine activeDay={activeDay} setActiveDay={setActiveDay} />
+              {/* <TimeLine activeDay={activeDay} setActiveDay={setActiveDay} /> */}
             </div>
           </div>
           <div className="space-y-4 lg:space-y-8 lg:col-span-4 ">
@@ -188,22 +232,22 @@ export default function shop() {
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">State License Number</p>
-                <input
-                  className="w-full px-3 py-1 border rounded bg-gray-50"
-                  value={business?.data?.licenseNumber}
-                />
+                <p className="w-full px-3 py-1 border rounded bg-gray-50">
+                  {business?.data?.licenseNumber}
+                </p>
               </div>
             </div>
             <div className="p-4 space-y-4 bg-white xl:p-8 ">
               <div>
                 <p className="text-xl font-semibold text-gray-700 ">
-                  First-Time Patients
+                  First-Time Customers
                 </p>
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Description</p>
                 <textarea
-                  name="description"
+                  onChange={handleOnSetValue}
+                  name="customers"
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
               </div>
@@ -218,7 +262,7 @@ export default function shop() {
                     <ImageUploading
                       multiple
                       value={images}
-                      onChange={onChange}
+                      onChange={handleImage}
                       maxNumber={1}
                       dataURLKey="data_url"
                     >

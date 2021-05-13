@@ -39,10 +39,6 @@ const adminApi = {
           },
         }
       );
-      console.log(
-        "🚀 ~ file: adminApi.tsx ~ line 37 ~ login: ~ response",
-        response
-      );
 
       return response;
     } catch (error) {
@@ -50,7 +46,7 @@ const adminApi = {
     }
   },
 
-  getAdmin: async (...args: any) => {
+  getCurrentAdmin: async (...args: any) => {
     const [url, token] = args;
     try {
       const response = await axios.get(url, {
@@ -59,6 +55,38 @@ const adminApi = {
         },
       });
 
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  updateStoreProfile: async (id: string, payload: any, token: string) => {
+    try {
+      const response = await axios.put(`/api/admin/update/${id}`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  uploadImage: async (payload: any, token: string, productId: number) => {
+    var data = new FormData();
+    data.append("file", payload);
+    try {
+      const response = await axios.post(
+        `/api/admin/image/upload/${productId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response;
     } catch (error) {
       return error.response;
