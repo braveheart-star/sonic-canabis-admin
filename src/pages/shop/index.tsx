@@ -3,6 +3,14 @@ import ImageUploading from "react-images-uploading";
 import TextField from "@material-ui/core/TextField";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { AdminLayout } from "../../components/common/AdminLayout";
+import {
+  AccessibleIcon,
+  AgeIcon,
+  AtmIcon,
+  CurbsideIcon,
+  MedicalIcon,
+  SecurityIcon,
+} from "../../components/icons";
 
 const DaysOfWeek = [
   "Monday",
@@ -14,13 +22,58 @@ const DaysOfWeek = [
   "Sunday",
 ];
 
+const amenitiesData = [
+  {
+    payload: "access",
+    text: "Accessible",
+    icon: AccessibleIcon,
+  },
+  {
+    payload: "curbside",
+    text: "Curbside pickup",
+    icon: CurbsideIcon,
+  },
+  {
+    payload: "medical",
+    text: "Medical",
+    icon: MedicalIcon,
+  },
+  {
+    payload: "security",
+    text: "Security",
+    icon: SecurityIcon,
+  },
+  {
+    payload: "minimum",
+    text: "Minimum Age",
+    icon: AgeIcon,
+  },
+  {
+    payload: "atm",
+    text: "ATM",
+    icon: AtmIcon,
+  },
+];
+
 export default function shop() {
   const [activeDay, setActiveDay] = useState(0);
   const [images, setImages] = useState<any[]>([]);
+  const [amenities, setAmenities] = useState<string[]>([]);
+
+  function handleAmenities(amenity: string) {
+    if ([...amenities].includes(amenity)) {
+      setAmenities([...amenities.filter((i) => i !== amenity)]);
+      return;
+    }
+
+    amenities.push(amenity);
+    setAmenities([...amenities]);
+  }
 
   const onChange = (imageList: any) => {
     setImages(imageList);
   };
+
   return (
     <AdminLayout>
       <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:py-8 lg:space-y-8 max-w-7xl">
@@ -83,102 +136,32 @@ export default function shop() {
                 <p className="text-gray-500 ">Choose your store amenities</p>
               </div>
               <div className="grid grid-cols-4 grid-rows-2 gap-4 ">
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M18 6C19.1046 6 20 5.10457 20 4C20 2.89543 19.1046 2 18 2C16.8954 2 16 2.89543 16 4C16 5.10457 16.8954 6 18 6Z" />
-                    <path d="M17.836 12.014L13.491 12.739L16.781 8.62597C16.956 8.40697 17.031 8.12497 16.988 7.84797C16.945 7.57097 16.788 7.32497 16.554 7.16897L10.554 3.16897C10.158 2.90397 9.63 2.95597 9.292 3.29397L5.292 7.29397L6.706 8.70797L10.126 5.28797L12.71 7.01097L10.029 10.363C9.395 10.132 8.713 9.99997 8 9.99997C6.706 9.99997 5.51 10.416 4.529 11.115L5.98 12.566C6.575 12.216 7.261 12 8 12C10.206 12 12 13.794 12 16C12 16.739 11.784 17.425 11.434 18.02L12.885 19.471C13.584 18.49 14 17.294 14 16C14 15.555 13.947 15.122 13.855 14.705L17 14.181V20H19V13C19 12.706 18.871 12.427 18.646 12.237C18.423 12.048 18.128 11.967 17.836 12.014ZM8 20C5.794 20 4 18.206 4 16C4 15.261 4.216 14.575 4.566 13.98L3.115 12.529C2.416 13.51 2 14.706 2 16C2 19.309 4.691 22 8 22C9.294 22 10.49 21.584 11.471 20.885L10.02 19.434C9.425 19.784 8.739 20 8 20Z" />
-                  </svg>
-                  <span>Accessible</span>
-                </div>
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M20.772 10.155L19.404 6.051C18.995 4.824 17.852 4 16.559 4H7.441C6.148 4 5.005 4.824 4.596 6.051L3.228 10.155C2.507 10.457 2 11.169 2 12V17C2 17.738 2.404 18.376 3 18.723V19.897V21C3 21.553 3.447 22 4 22H5C5.553 22 6 21.553 6 21V19H18V21C18 21.553 18.447 22 19 22H20C20.553 22 21 21.553 21 21V18.723C21.596 18.376 22 17.739 22 17V12C22 11.169 21.493 10.457 20.772 10.155ZM7.441 6H16.558C16.989 6 17.371 6.274 17.507 6.684L18.613 10H17.819H6.181H5.387L6.492 6.684C6.629 6.274 7.011 6 7.441 6ZM5.5 16C4.672 16 4 15.328 4 14.5C4 13.672 4.672 13 5.5 13C6.328 13 7 13.672 7 14.5C7 15.328 6.328 16 5.5 16ZM18.5 16C17.672 16 17 15.328 17 14.5C17 13.672 17.672 13 18.5 13C19.328 13 20 13.672 20 14.5C20 15.328 19.328 16 18.5 16Z" />
-                  </svg>
-
-                  <span>Curbside pickup</span>
-                </div>
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M15 2.01318H9V9.00018H2V15.0002H9V21.9872H15V15.0002H22V9.00018H15V2.01318Z" />
-                  </svg>
-
-                  <span>Medical</span>
-                </div>
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M20 12C20 10.897 19.103 10 18 10H17V7C17 4.243 14.757 2 12 2C9.243 2 7 4.243 7 7V10H6C4.897 10 4 10.897 4 12V20C4 21.103 4.897 22 6 22H18C19.103 22 20 21.103 20 20V12ZM9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7V10H9V7Z" />
-                  </svg>
-
-                  <span>Security</span>
-                </div>
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    height="24px"
-                    width="24px"
-                    viewBox="0 0 24 24"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M17.986 10.001h1.572c.21 0 .381.17.381.381v1.706h1.671c.21 0 .381.171.381.381v1.571c0 .21-.171.381-.381.381h-1.671v1.548a.38.38 0 0 1-.381.38h-1.572a.38.38 0 0 1-.38-.38v-1.548h-1.583a.38.38 0 0 1-.381-.381v-1.571c0-.21.17-.381.381-.381h1.583v-1.706a.38.38 0 0 1 .38-.381zM4.869 8.287h1.694v8.449h-1.94v-6.13l-1.516 1.43L2 10.96l2.869-2.673zm7.855 2.382c0-.608-.642-.963-1.53-.963-.902 0-1.544.355-1.544.963 0 .633.984.924 1.544 1 .56-.076 1.53-.367 1.53-1zm.164 3.647c0-.709-1.134-1.05-1.694-1.127-.574.076-1.694.418-1.694 1.127 0 .621.738 1.026 1.694 1.026.929 0 1.694-.405 1.694-1.026zm-5.355.228c0-1.026.86-1.81 1.953-2.165-1.01-.33-1.803-.938-1.803-1.989 0-1.583 1.817-2.23 3.511-2.23 1.68 0 3.51.647 3.51 2.23 0 1.051-.805 1.66-1.816 1.989 1.093.354 1.967 1.14 1.967 2.165 0 1.571-1.748 2.344-3.66 2.344-1.914 0-3.662-.76-3.662-2.344z"></path>
-                  </svg>
-
-                  <span>Minimum Age</span>
-                </div>
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    height="24px"
-                    width="24px"
-                    viewBox="0 0 24 24"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M20.844 10.914c-.625 0-1.133-.527-1.133-1.178V6.524H4.266v3.212c0 .65-.507 1.178-1.133 1.178S2 10.387 2 9.736v-4.39c0-.651.507-1.179 1.133-1.179h17.711c.626 0 1.133.528 1.133 1.178v4.39c0 .652-.507 1.179-1.133 1.179zM17.147 20H6.853c-.596 0-1.08-.504-1.08-1.124V8.018h2.16v9.734h8.134V8h2.16v10.876c0 .62-.484 1.124-1.08 1.124zm-2.01-12c0 1.767-1.378 3.2-3.078 3.2S8.981 9.767 8.981 8h6.156z"></path>
-                  </svg>
-
-                  <span>ATM</span>
-                </div>
-                <div className="text-sm text-center text-gray-500">
-                  <svg
-                    width="24px"
-                    height="24px"
-                    viewBox="0 0 14 14"
-                    className="w-8 h-8 mx-auto fill-current text-trueGray-400"
-                  >
-                    <path d="M7 13.315l-1.812.446-1.345-1.29-1.793-.52-.52-1.792L.24 8.812.684 7 .24 5.188l1.29-1.345.52-1.793 1.793-.52L5.188.24 7 .684 8.812.24l1.345 1.29 1.793.52.52 1.793 1.29 1.345L13.316 7l.446 1.812-1.29 1.345-.52 1.793-1.793.52-1.346 1.29"></path>
-                    <path
-                      fill="#fff"
-                      d="M5.955 10h-.002L3 7.163 4.2 6.01l1.754 1.685L9.8 4 11 5.153z"
-                    ></path>
-                  </svg>
-
-                  <span>Brand Verified</span>
-                </div>
+                {amenitiesData.map((item, idx) => {
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => handleAmenities(item.payload)}
+                      className="text-sm text-center focus:outline-none"
+                    >
+                      <item.icon
+                        className={`w-6 h-6 mx-auto fill-current ${
+                          amenities.includes(item.payload)
+                            ? "text-green-500"
+                            : "text-trueGray-400"
+                        }`}
+                      />
+                      <span
+                        className={
+                          amenities.includes(item.payload)
+                            ? "text-green-500"
+                            : "text-gray-500"
+                        }
+                      >
+                        {item.text}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
             <div className="p-4 space-y-4 bg-white xl:p-8 ">
@@ -330,8 +313,8 @@ export default function shop() {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M24 12.073C24 5.40577 18.6269 0 12 0C5.37309 0 0 5.40577 0 12.073C0 18.0984 4.38761 23.0933 10.1252 24V15.5636H7.07748V12.073H10.1252V9.41251C10.1252 6.38703 11.9173 4.7147 14.6578 4.7147C15.9707 4.7147 17.3444 4.95069 17.3444 4.95069V7.92186H15.8306C14.3406 7.92186 13.8748 8.85225 13.8748 9.80808V12.0729H17.2026L16.671 15.5636H13.8747V23.9999C19.6123 23.0949 24 18.1001 24 12.073Z"
                     fill="#0078FF"
                   />
@@ -347,7 +330,7 @@ export default function shop() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clip-path="url(#clip0)">
+                  <g clipPath="url(#clip0)">
                     <path
                       d="M23.7135 12.2763C23.7135 11.4605 23.6474 10.6404 23.5063 9.83789H12.1875V14.4589H18.6692C18.4003 15.9492 17.536 17.2676 16.2705 18.1054V21.1037H20.1375C22.4083 19.0137 23.7135 15.9272 23.7135 12.2763Z"
                       fill="#4285F4"
