@@ -113,14 +113,19 @@ export default function shop() {
   function handleOnSetValue(event: any) {
     setShopData({
       ...shopData,
-      [event.target.name]: event.target.value.trim(),
+      [event.target.name]: event.target.value,
     });
+  }
+
+  function handleEditButton() {
+    if (editable) setEdit(false);
+    else {
+      setEdit(true);
+    }
   }
 
   async function handleUpdateProfile() {
     setEdit(false);
-    console.log("🚀 ~ file: index.tsx ~ line 75 ~ shop ~ shopData", shopData);
-
     const { data, status } = await adminApi.updateStoreProfile(
       business?.data?.id,
       shopData,
@@ -145,14 +150,12 @@ export default function shop() {
           </p>
           <div className="flex space-x-4 ">
             <button
-              disabled={editable}
-              onClick={() => setEdit(true)}
-              className={`w-32 py-2 font-semibold tracking-wider bg-yellow-500 text-white uppercase rounded ${
-                editable && "opacity-50"
-              }`}
+              onClick={handleEditButton}
+              className="w-32 py-2 font-semibold tracking-wider text-white uppercase bg-yellow-500 rounded"
             >
-              edit
+              {editable ? "cancel" : "edit"}
             </button>
+
             <button
               disabled={!editable}
               onClick={handleUpdateProfile}
@@ -289,6 +292,7 @@ export default function shop() {
                   return (
                     <button
                       key={idx}
+                      disabled={!editable}
                       onClick={() => handleAmenities(item.payload)}
                       className="text-sm text-center focus:outline-none"
                     >
@@ -331,17 +335,18 @@ export default function shop() {
                 </p>
               </div>
               <div className="space-y-2 ">
-                <p className="text-gray-500 ">Description</p>
-                <textarea
-                  onChange={handleOnSetValue}
-                  name="customers"
-                  value={
-                    business?.data?.customers?.length > 0
-                      ? business?.data?.customers
-                      : shopData.customers
-                  }
-                  className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
-                />
+                {!editable ? (
+                  <p className="w-full px-2 py-1 border rounded bg-gray-50 h-28">
+                    {business?.data?.customers ?? ""}
+                  </p>
+                ) : (
+                  <textarea
+                    onChange={handleOnSetValue}
+                    name="customers"
+                    className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
+                    value={shopData.customers}
+                  />
+                )}
               </div>
             </div>
             <div className="p-4 space-y-4 bg-white xl:p-8 ">
@@ -349,116 +354,112 @@ export default function shop() {
                 <p className="text-xl font-semibold text-gray-700 ">Media</p>
               </div>
               <div className="space-y-2 ">
-                <div className="flex ">
-                  <div className="mx-auto text-center">
-                    {business?.data?.imageUrl?.length > 0 ? (
-                      <Image
-                        src={`http://canabismap.imgix.net/${business?.data?.imageUrl}`}
-                        alt="logo"
-                        width={2000}
-                        height={1300}
-                      />
-                    ) : (
-                      <ImageUploading
-                        multiple
-                        value={images}
-                        onChange={handleImage}
-                        maxNumber={1}
-                        dataURLKey="data_url"
-                      >
-                        {({
-                          imageList,
-                          onImageUpload,
-                          // onImageRemoveAll,
-                          onImageUpdate,
-                          onImageRemove,
-                          isDragging,
-                          dragProps,
-                        }) => (
-                          // write your building UI
-                          <div className="upload__image-wrapper">
-                            {!(imageList.length > 0) && (
-                              <div
-                                style={
-                                  isDragging ? { color: "red" } : undefined
-                                }
-                                onClick={onImageUpload}
-                                {...dragProps}
-                                className="text-gray-500 "
+                <div className="flex justify-center text-center ">
+                  {business?.data?.imageUrl?.length > 0 && !editable ? (
+                    <Image
+                      src={`http://canabismap.imgix.net/${business?.data?.imageUrl}`}
+                      alt="logo"
+                      width={2000}
+                      height={1300}
+                    />
+                  ) : (
+                    <ImageUploading
+                      multiple
+                      value={images}
+                      onChange={handleImage}
+                      maxNumber={1}
+                      dataURLKey="data_url"
+                    >
+                      {({
+                        imageList,
+                        onImageUpload,
+                        // onImageRemoveAll,
+                        onImageUpdate,
+                        onImageRemove,
+                        isDragging,
+                        dragProps,
+                      }) => (
+                        // write your building UI
+                        <div className="upload__image-wrapper">
+                          {!(imageList.length > 0) && (
+                            <div
+                              style={isDragging ? { color: "red" } : undefined}
+                              onClick={onImageUpload}
+                              {...dragProps}
+                              className="text-gray-500 "
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                className="w-40 h-32 fill-current text-trueGray-400"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  className="w-40 h-32 fill-current text-trueGray-400"
+                                <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
+                              </svg>
+                              <div className="flex justify-center ">
+                                <button className="flex items-center justify-center space-x-2">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                    className="w-4 h-4 text-gray-400 fill-current"
+                                  >
+                                    <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
+                                  </svg>
+                                  <p className="font-semibold text-gray-400 ">
+                                    Upload images
+                                  </p>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                          &nbsp;
+                          {imageList.map((image, index) => (
+                            <div key={index} className="image-item">
+                              <img
+                                src={image["data_url"]}
+                                alt=""
+                                width="100"
+                                className="h-32 w-44"
+                              />
+                              <div className="flex justify-center space-x-3 text-center image-item__btn-wrapper">
+                                <button
+                                  className="flex items-center space-x-2 text-gray-500"
+                                  onClick={() => onImageUpdate(index)}
                                 >
-                                  <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
-                                </svg>
-                                <div className="flex justify-center ">
-                                  <button className="flex items-center justify-center space-x-2">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 20 20"
-                                      className="w-4 h-4 text-gray-400 fill-current"
-                                    >
-                                      <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
-                                    </svg>
-                                    <p className="font-semibold text-gray-400 ">
-                                      Upload images
-                                    </p>
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                            &nbsp;
-                            {imageList.map((image, index) => (
-                              <div key={index} className="image-item">
-                                <img
-                                  src={image["data_url"]}
-                                  alt=""
-                                  width="100"
-                                  className="h-32 w-44"
-                                />
-                                <div className="flex justify-center space-x-3 text-center image-item__btn-wrapper">
-                                  <button
-                                    className="flex items-center space-x-2 text-gray-500"
-                                    onClick={() => onImageUpdate(index)}
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    className="w-4 h-4 text-gray-500 fill-current "
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      className="w-4 h-4 text-gray-500 fill-current "
-                                    >
-                                      <path d="M20.944 12.979c-.489 4.509-4.306 8.021-8.944 8.021-2.698 0-5.112-1.194-6.763-3.075l1.245-1.633c1.283 1.645 3.276 2.708 5.518 2.708 3.526 0 6.444-2.624 6.923-6.021h-2.923l4-5.25 4 5.25h-3.056zm-15.864-1.979c.487-3.387 3.4-6 6.92-6 2.237 0 4.228 1.059 5.51 2.698l1.244-1.632c-1.65-1.876-4.061-3.066-6.754-3.066-4.632 0-8.443 3.501-8.941 8h-3.059l4 5.25 4-5.25h-2.92z" />
-                                    </svg>
-                                    <span>Update</span>
-                                  </button>
-                                  <button
-                                    className="flex items-center space-x-2 text-gray-500"
-                                    onClick={() => onImageRemove(index)}
+                                    <path d="M20.944 12.979c-.489 4.509-4.306 8.021-8.944 8.021-2.698 0-5.112-1.194-6.763-3.075l1.245-1.633c1.283 1.645 3.276 2.708 5.518 2.708 3.526 0 6.444-2.624 6.923-6.021h-2.923l4-5.25 4 5.25h-3.056zm-15.864-1.979c.487-3.387 3.4-6 6.92-6 2.237 0 4.228 1.059 5.51 2.698l1.244-1.632c-1.65-1.876-4.061-3.066-6.754-3.066-4.632 0-8.443 3.501-8.941 8h-3.059l4 5.25 4-5.25h-2.92z" />
+                                  </svg>
+                                  <span>Update</span>
+                                </button>
+                                <button
+                                  className="flex items-center space-x-2 text-gray-500"
+                                  onClick={() => onImageRemove(index)}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    className="w-4 h-4 text-gray-500 fill-current "
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      className="w-4 h-4 text-gray-500 fill-current "
-                                    >
-                                      <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z" />
-                                    </svg>
-                                    <span>Remove</span>
-                                  </button>
-                                </div>
+                                    <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z" />
+                                  </svg>
+                                  <span>Remove</span>
+                                </button>
                               </div>
-                            ))}
-                          </div>
-                        )}
-                      </ImageUploading>
-                    )}
-                  </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </ImageUploading>
+                  )}
                 </div>
               </div>
             </div>
