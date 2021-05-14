@@ -59,24 +59,22 @@ export default function shop() {
     ["/api/admin/self", token],
     adminApi.getCurrentAdmin
   );
-  console.log("🚀 ~ file: index.tsx ~ line 59 ~ shop ~ business", business);
 
   useEffect(() => {
     if (business?.data?.amenity) setAmenities(business?.data?.amenity);
   }, [business?.data?.amenity]);
 
   useEffect(() => {
-    if (business?.data?.firstName)
-      setShopData({
-        ...shopData,
-        firstName: business?.data?.firstName,
-      });
-
-    if (business?.data?.lastName)
-      setShopData({
-        ...shopData,
-        lastName: business?.data?.lastName,
-      });
+    setShopData({
+      ...shopData,
+      firstName: business?.data?.firstName,
+      lastName: business?.data?.lastName,
+      introduction: business?.data?.introduction,
+      about: business?.data?.about,
+      announcement: business?.data?.announcement,
+      customers: business?.data?.customers,
+      amenity: business?.data?.amenity,
+    });
   }, [business?.data]);
 
   const [editable, setEdit] = useState(false);
@@ -86,8 +84,8 @@ export default function shop() {
   const [amenities, setAmenities] = useState<string[]>([]);
 
   const [shopData, setShopData] = useState({
-    firstName: business?.data?.firstName,
-    lastName: business?.data?.lastName,
+    firstName: "",
+    lastName: "",
     introduction: "",
     about: "",
     announcement: "",
@@ -178,29 +176,33 @@ export default function shop() {
               <div className="grid grid-cols-1 space-y-2 sm:space-y-0 sm:grid-cols-2 gap-x-4">
                 <div className="w-full space-y-2">
                   <p className="text-gray-500 ">first name</p>
-                  <input
-                    onChange={handleOnSetValue}
-                    name="firstName"
-                    className="w-full px-3 py-1 border rounded bg-gray-50"
-                    value={
-                      business?.data?.firstName?.length > 0
-                        ? business?.data?.firstName
-                        : shopData.firstName
-                    }
-                  />
+                  {!editable ? (
+                    <p className="w-full px-3 py-1 border rounded bg-gray-50">
+                      {business?.data?.firstName ?? ""}
+                    </p>
+                  ) : (
+                    <input
+                      onChange={handleOnSetValue}
+                      name="firstName"
+                      className="w-full px-3 py-1 border rounded bg-gray-50"
+                      value={shopData.firstName}
+                    />
+                  )}
                 </div>
                 <div className="space-y-2 ">
                   <p className="text-gray-500 ">last name</p>
-                  <input
-                    onChange={handleOnSetValue}
-                    name="lastName"
-                    className="w-full px-3 py-1 border rounded bg-gray-50"
-                    value={
-                      business?.data?.lastName?.length > 0
-                        ? business?.data?.lastName
-                        : shopData.lastName
-                    }
-                  />
+                  {!editable ? (
+                    <p className="w-full px-3 py-1 border rounded bg-gray-50">
+                      {business?.data?.lastName ?? ""}
+                    </p>
+                  ) : (
+                    <input
+                      onChange={handleOnSetValue}
+                      name="lastName"
+                      className="w-full px-3 py-1 border rounded bg-gray-50"
+                      value={shopData.lastName}
+                    />
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-1 space-y-2 sm:space-y-0 sm:grid-cols-2 gap-x-4">
@@ -225,43 +227,48 @@ export default function shop() {
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Introduction</p>
-                <textarea
-                  onChange={handleOnSetValue}
-                  name="introduction"
-                  value={
-                    business?.data?.introduction?.length > 0
-                      ? business?.data?.introduction
-                      : shopData.introduction
-                  }
-                  className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
-                />
+                {!editable ? (
+                  <p className="w-full px-2 py-1 border rounded bg-gray-50 h-28">
+                    {business?.data?.introduction ?? ""}
+                  </p>
+                ) : (
+                  <textarea
+                    onChange={handleOnSetValue}
+                    name="introduction"
+                    className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
+                    value={shopData.introduction}
+                  />
+                )}
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">About us</p>
-                <textarea
-                  onChange={handleOnSetValue}
-                  placeholder=" about us ..."
-                  value={
-                    business?.data?.about?.length > 0
-                      ? business?.data?.about
-                      : shopData.about
-                  }
-                  name="about"
-                  className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
-                />
+                {!editable ? (
+                  <p className="w-full px-2 py-1 border rounded bg-gray-50 h-28">
+                    {business?.data?.about ?? ""}
+                  </p>
+                ) : (
+                  <textarea
+                    onChange={handleOnSetValue}
+                    name="about"
+                    className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
+                    value={shopData.about}
+                  />
+                )}
               </div>
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Announcement</p>
-                <textarea
-                  onChange={handleOnSetValue}
-                  name="announcement"
-                  value={
-                    business?.data?.announcement?.length > 0
-                      ? business?.data?.announcement
-                      : shopData.announcement
-                  }
-                  className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
-                />
+                {!editable ? (
+                  <p className="w-full px-2 py-1 border rounded bg-gray-50 h-28">
+                    {business?.data?.announcement ?? ""}
+                  </p>
+                ) : (
+                  <textarea
+                    onChange={handleOnSetValue}
+                    name="announcement"
+                    className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
+                    value={shopData.announcement}
+                  />
+                )}
               </div>
             </div>
             <div className="p-4 space-y-4 bg-white xl:p-8">
