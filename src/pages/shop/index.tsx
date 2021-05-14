@@ -118,10 +118,11 @@ export default function shop() {
   }
 
   function handleEditButton() {
-    if (editable) setEdit(false);
-    else {
-      setEdit(true);
+    if (editable) {
+      setEdit(false);
+      return;
     }
+    setEdit(true);
   }
 
   async function handleUpdateProfile() {
