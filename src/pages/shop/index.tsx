@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import useSWR from "swr";
+
 import Swal from "sweetalert2";
 import ImageUploading from "react-images-uploading";
 
@@ -59,13 +61,13 @@ export default function shop() {
     ["/api/admin/self", token],
     adminApi.getCurrentAdmin
   );
-
-  const adminId = business?.data?.id;
-  const temp = business?.data?.amenity;
+  console.log("🚀 ~ file: index.tsx ~ line 59 ~ shop ~ business", business);
 
   useEffect(() => {
-    if (temp) setAmenities(temp);
-  }, [temp]);
+    if (business?.data?.amenity) setAmenities(business?.data?.amenity);
+  }, [business?.data?.amenity]);
+
+  const [editable, setEdit] = useState(false);
 
   // const [activeDay, setActiveDay] = useState(0);
   const [images, setImages] = useState<any[]>([]);
@@ -104,13 +106,8 @@ export default function shop() {
   }
 
   async function handleUpdateProfile() {
-    console.log(
-      "🚀 ~ file: index.tsx ~ line 93 ~ handleOnSetValue ~ shopData",
-      shopData
-    );
-
     const { data, status } = await adminApi.updateStoreProfile(
-      adminId,
+      business?.data?.id,
       shopData,
       token
     );
@@ -119,27 +116,43 @@ export default function shop() {
     }
     if (status === 200) {
       Swal.fire("Success", "Successfully submitted ! ", "success");
-      // await adminApi.uploadImage(images[0].file, token, data.id);
+      if (images.length > 0)
+        await adminApi.uploadImage(images[0].file, token, data.id);
     }
   }
 
   return (
     <AdminLayout>
       <div className="container p-4 mx-auto space-y-4 text-gray-700 lg:py-8 lg:space-y-8 max-w-7xl">
-        <div className="flex items-baseline justify-between ">
+        <div className="items-baseline justify-between space-y-4 lg:flex ">
           <p className="text-2xl font-bold lg:text-4xl ">
             Manage Store Profile
           </p>
-          <button
-            onClick={handleUpdateProfile}
-            className="px-3 py-2 font-semibold text-white bg-green-500 rounded"
-          >
-            Save Changes
-          </button>
+          <div className="flex space-x-4 ">
+            <button
+              onClick={() => setEdit(true)}
+              className="w-32 py-2 font-semibold tracking-wider text-white uppercase bg-yellow-500 rounded"
+            >
+              edit
+            </button>
+            <button
+              onClick={handleUpdateProfile}
+              className="w-32 py-2 font-semibold tracking-wider text-white uppercase bg-green-500 rounded"
+            >
+              save
+            </button>
+          </div>
         </div>
         <div className="grid lg:grid-cols-12 gap-x-16 gap-y-4 lg:gap-y-0 ">
           <div className=" lg:col-span-8 lg:space-y-8">
             <div className="p-4 space-y-4 bg-white xl:p-8">
+              <div className="space-y-2 ">
+                <p className="text-gray-500 ">Admin name</p>
+                <p className="w-full px-3 py-1 border rounded lg:w-1/2 bg-gray-50">
+                  {`${business?.data?.firstName}  ${business?.data?.lastName}`}
+                </p>
+              </div>
+
               <div className="space-y-2 ">
                 <p className="text-gray-500 ">Store name</p>
                 <p className="w-full px-3 py-1 border rounded lg:w-1/2 bg-gray-50">
@@ -171,6 +184,11 @@ export default function shop() {
                 <textarea
                   onChange={handleOnSetValue}
                   name="introduction"
+                  value={
+                    business?.data?.introduction?.length > 0
+                      ? business?.data?.introduction
+                      : shopData.introduction
+                  }
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
               </div>
@@ -179,6 +197,11 @@ export default function shop() {
                 <textarea
                   onChange={handleOnSetValue}
                   placeholder=" about us ..."
+                  value={
+                    business?.data?.about?.length > 0
+                      ? business?.data?.about
+                      : shopData.about
+                  }
                   name="about"
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
@@ -188,6 +211,11 @@ export default function shop() {
                 <textarea
                   onChange={handleOnSetValue}
                   name="announcement"
+                  value={
+                    business?.data?.announcement?.length > 0
+                      ? business?.data?.announcement
+                      : shopData.announcement
+                  }
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
               </div>
@@ -256,6 +284,11 @@ export default function shop() {
                 <textarea
                   onChange={handleOnSetValue}
                   name="customers"
+                  value={
+                    business?.data?.customers?.length > 0
+                      ? business?.data?.customers
+                      : shopData.customers
+                  }
                   className="w-full px-2 py-1 border rounded bg-gray-50 h-28"
                 />
               </div>
@@ -267,102 +300,113 @@ export default function shop() {
               <div className="space-y-2 ">
                 <div className="flex ">
                   <div className="mx-auto text-center">
-                    <ImageUploading
-                      multiple
-                      value={images}
-                      onChange={handleImage}
-                      maxNumber={1}
-                      dataURLKey="data_url"
-                    >
-                      {({
-                        imageList,
-                        onImageUpload,
-                        // onImageRemoveAll,
-                        onImageUpdate,
-                        onImageRemove,
-                        isDragging,
-                        dragProps,
-                      }) => (
-                        // write your building UI
-                        <div className="upload__image-wrapper">
-                          {!(imageList.length > 0) && (
-                            <div
-                              style={isDragging ? { color: "red" } : undefined}
-                              onClick={onImageUpload}
-                              {...dragProps}
-                              className="text-gray-500 "
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                className="w-40 h-32 fill-current text-trueGray-400"
+                    {business?.data?.imageUrl?.length > 0 ? (
+                      <Image
+                        src={`http://canabismap.imgix.net/${business?.data?.imageUrl}`}
+                        alt="logo"
+                        width={2000}
+                        height={1300}
+                      />
+                    ) : (
+                      <ImageUploading
+                        multiple
+                        value={images}
+                        onChange={handleImage}
+                        maxNumber={1}
+                        dataURLKey="data_url"
+                      >
+                        {({
+                          imageList,
+                          onImageUpload,
+                          // onImageRemoveAll,
+                          onImageUpdate,
+                          onImageRemove,
+                          isDragging,
+                          dragProps,
+                        }) => (
+                          // write your building UI
+                          <div className="upload__image-wrapper">
+                            {!(imageList.length > 0) && (
+                              <div
+                                style={
+                                  isDragging ? { color: "red" } : undefined
+                                }
+                                onClick={onImageUpload}
+                                {...dragProps}
+                                className="text-gray-500 "
                               >
-                                <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
-                              </svg>
-                              <div className="flex justify-center ">
-                                <button className="flex items-center justify-center space-x-2">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    className="w-4 h-4 text-gray-400 fill-current"
-                                  >
-                                    <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
-                                  </svg>
-                                  <p className="font-semibold text-gray-400 ">
-                                    Upload images
-                                  </p>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                          &nbsp;
-                          {imageList.map((image, index) => (
-                            <div key={index} className="image-item">
-                              <img
-                                src={image["data_url"]}
-                                alt=""
-                                width="100"
-                                className="h-32 w-44"
-                              />
-                              <div className="flex justify-center space-x-3 text-center image-item__btn-wrapper">
-                                <button
-                                  className="flex items-center space-x-2 text-gray-500"
-                                  onClick={() => onImageUpdate(index)}
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  className="w-40 h-32 fill-current text-trueGray-400"
                                 >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    className="w-4 h-4 text-gray-500 fill-current "
-                                  >
-                                    <path d="M20.944 12.979c-.489 4.509-4.306 8.021-8.944 8.021-2.698 0-5.112-1.194-6.763-3.075l1.245-1.633c1.283 1.645 3.276 2.708 5.518 2.708 3.526 0 6.444-2.624 6.923-6.021h-2.923l4-5.25 4 5.25h-3.056zm-15.864-1.979c.487-3.387 3.4-6 6.92-6 2.237 0 4.228 1.059 5.51 2.698l1.244-1.632c-1.65-1.876-4.061-3.066-6.754-3.066-4.632 0-8.443 3.501-8.941 8h-3.059l4 5.25 4-5.25h-2.92z" />
-                                  </svg>
-                                  <span>Update</span>
-                                </button>
-                                <button
-                                  className="flex items-center space-x-2 text-gray-500"
-                                  onClick={() => onImageRemove(index)}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    className="w-4 h-4 text-gray-500 fill-current "
-                                  >
-                                    <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z" />
-                                  </svg>
-                                  <span>Remove</span>
-                                </button>
+                                  <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
+                                </svg>
+                                <div className="flex justify-center ">
+                                  <button className="flex items-center justify-center space-x-2">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                      className="w-4 h-4 text-gray-400 fill-current"
+                                    >
+                                      <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
+                                    </svg>
+                                    <p className="font-semibold text-gray-400 ">
+                                      Upload images
+                                    </p>
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </ImageUploading>
+                            )}
+                            &nbsp;
+                            {imageList.map((image, index) => (
+                              <div key={index} className="image-item">
+                                <img
+                                  src={image["data_url"]}
+                                  alt=""
+                                  width="100"
+                                  className="h-32 w-44"
+                                />
+                                <div className="flex justify-center space-x-3 text-center image-item__btn-wrapper">
+                                  <button
+                                    className="flex items-center space-x-2 text-gray-500"
+                                    onClick={() => onImageUpdate(index)}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      className="w-4 h-4 text-gray-500 fill-current "
+                                    >
+                                      <path d="M20.944 12.979c-.489 4.509-4.306 8.021-8.944 8.021-2.698 0-5.112-1.194-6.763-3.075l1.245-1.633c1.283 1.645 3.276 2.708 5.518 2.708 3.526 0 6.444-2.624 6.923-6.021h-2.923l4-5.25 4 5.25h-3.056zm-15.864-1.979c.487-3.387 3.4-6 6.92-6 2.237 0 4.228 1.059 5.51 2.698l1.244-1.632c-1.65-1.876-4.061-3.066-6.754-3.066-4.632 0-8.443 3.501-8.941 8h-3.059l4 5.25 4-5.25h-2.92z" />
+                                    </svg>
+                                    <span>Update</span>
+                                  </button>
+                                  <button
+                                    className="flex items-center space-x-2 text-gray-500"
+                                    onClick={() => onImageRemove(index)}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      className="w-4 h-4 text-gray-500 fill-current "
+                                    >
+                                      <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z" />
+                                    </svg>
+                                    <span>Remove</span>
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </ImageUploading>
+                    )}
                   </div>
                 </div>
               </div>

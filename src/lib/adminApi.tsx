@@ -74,12 +74,12 @@ const adminApi = {
     }
   },
 
-  uploadImage: async (payload: any, token: string, productId: number) => {
+  uploadImage: async (payload: any, token: string, adminId: number) => {
     var data = new FormData();
     data.append("file", payload);
     try {
       const response = await axios.post(
-        `/api/admin/image/upload/${productId}`,
+        `/api/admin/image/upload/${adminId}`,
         data,
         {
           headers: {
