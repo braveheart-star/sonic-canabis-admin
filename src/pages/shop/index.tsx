@@ -19,6 +19,7 @@ import adminApi from "../../lib/adminApi";
 // import { TimeLine } from "../../components/TimeLine";
 import { AdminLayout } from "../../components/common/AdminLayout";
 import { SocialMedia } from "../../components/SocialMedia";
+import { ShopDataPayload } from "../../utils/type";
 
 const amenitiesData = [
   {
@@ -59,9 +60,10 @@ export default function shop() {
     ["/api/admin/self", token],
     adminApi.getCurrentAdmin
   );
+  console.log("🚀 ~ file: index.tsx ~ line 60 ~ shop ~ business", business);
 
   useEffect(() => {
-    if (business?.data?.amenity) setAmenities(business?.data?.amenity);
+    if (business?.data?.amenity) setAmenities([...business?.data?.amenity]);
   }, [business?.data?.amenity]);
 
   const [editable, setEdit] = useState(false);
@@ -70,29 +72,23 @@ export default function shop() {
   const [images, setImages] = useState<any[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
 
-  const [shopData, setShopData] = useState({
+  const [shopData, setShopData] = useState<ShopDataPayload>({
     firstName: "",
     lastName: "",
     introduction: "",
     about: "",
     announcement: "",
     customers: "",
-    amenity: [...amenities],
+    amenity: [],
   });
 
   function handleAmenities(amenity: string) {
-    console.log("🚀 ~ file: index.tsx ~ line 87 ~ shop ~ shopData", shopData);
-
     if ([...amenities].includes(amenity)) {
       setAmenities([...amenities.filter((i) => i !== amenity)]);
       return;
     }
     amenities.push(amenity);
     setAmenities([...amenities]);
-    setShopData({
-      ...shopData,
-      amenity: amenities,
-    });
   }
 
   function handleImage(imageList: any) {
@@ -107,14 +103,28 @@ export default function shop() {
   }
 
   function handleEditButton() {
+    console.log("business ==========>", business);
     if (editable) {
       setEdit(false);
+      console.log(
+        "business?.data?.amenity ===> ",
+        business?.data?.amenity,
+        "business ==========>",
+        business
+      );
+      setAmenities([...business?.data?.amenity]);
+
       return;
     }
     setEdit(true);
   }
 
   async function handleUpdateProfile() {
+    console.log("clicked here ====>");
+    setShopData({
+      ...shopData,
+      amenity: amenities,
+    });
     setEdit(false);
     const { data, status } = await adminApi.updateStoreProfile(
       business?.data?.id,
