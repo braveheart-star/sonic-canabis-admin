@@ -53,8 +53,6 @@ const amenitiesData = [
   },
 ];
 
-const initAmenities = ["access", "medical"];
-
 export default function shop() {
   const { data: token } = useSWR("accessToken", storage);
   const { data: business } = useSWR(
@@ -67,6 +65,20 @@ export default function shop() {
     if (business?.data?.amenity) setAmenities(business?.data?.amenity);
   }, [business?.data?.amenity]);
 
+  useEffect(() => {
+    if (business?.data?.firstName)
+      setShopData({
+        ...shopData,
+        firstName: business?.data?.firstName,
+      });
+
+    if (business?.data?.lastName)
+      setShopData({
+        ...shopData,
+        lastName: business?.data?.lastName,
+      });
+  }, [business?.data]);
+
   const [editable, setEdit] = useState(false);
 
   // const [activeDay, setActiveDay] = useState(0);
@@ -74,11 +86,13 @@ export default function shop() {
   const [amenities, setAmenities] = useState<string[]>([]);
 
   const [shopData, setShopData] = useState({
+    firstName: business?.data?.firstName,
+    lastName: business?.data?.lastName,
     introduction: "",
     about: "",
     announcement: "",
     customers: "",
-    amenity: [...initAmenities],
+    amenity: [...amenities],
   });
 
   function handleAmenities(amenity: string) {
@@ -106,6 +120,9 @@ export default function shop() {
   }
 
   async function handleUpdateProfile() {
+    setEdit(false);
+    console.log("🚀 ~ file: index.tsx ~ line 75 ~ shop ~ shopData", shopData);
+
     const { data, status } = await adminApi.updateStoreProfile(
       business?.data?.id,
       shopData,
@@ -130,14 +147,20 @@ export default function shop() {
           </p>
           <div className="flex space-x-4 ">
             <button
+              disabled={editable}
               onClick={() => setEdit(true)}
-              className="w-32 py-2 font-semibold tracking-wider text-white uppercase bg-yellow-500 rounded"
+              className={`w-32 py-2 font-semibold tracking-wider bg-yellow-500 text-white uppercase rounded ${
+                editable && "opacity-50"
+              }`}
             >
               edit
             </button>
             <button
+              disabled={!editable}
               onClick={handleUpdateProfile}
-              className="w-32 py-2 font-semibold tracking-wider text-white uppercase bg-green-500 rounded"
+              className={`w-32 py-2 font-semibold tracking-wider text-white uppercase bg-green-500 rounded ${
+                !editable && "opacity-50"
+              }`}
             >
               save
             </button>
@@ -146,18 +169,39 @@ export default function shop() {
         <div className="grid lg:grid-cols-12 gap-x-16 gap-y-4 lg:gap-y-0 ">
           <div className=" lg:col-span-8 lg:space-y-8">
             <div className="p-4 space-y-4 bg-white xl:p-8">
-              <div className="space-y-2 ">
-                <p className="text-gray-500 ">Admin name</p>
-                <p className="w-full px-3 py-1 border rounded lg:w-1/2 bg-gray-50">
-                  {`${business?.data?.firstName}  ${business?.data?.lastName}`}
-                </p>
-              </div>
-
-              <div className="space-y-2 ">
+              <div className="space-y-2 lg:mr-4 ">
                 <p className="text-gray-500 ">Store name</p>
                 <p className="w-full px-3 py-1 border rounded lg:w-1/2 bg-gray-50">
                   {business?.data?.businessName}
                 </p>
+              </div>
+              <div className="grid grid-cols-1 space-y-2 sm:space-y-0 sm:grid-cols-2 gap-x-4">
+                <div className="w-full space-y-2">
+                  <p className="text-gray-500 ">first name</p>
+                  <input
+                    onChange={handleOnSetValue}
+                    name="firstName"
+                    className="w-full px-3 py-1 border rounded bg-gray-50"
+                    value={
+                      business?.data?.firstName?.length > 0
+                        ? business?.data?.firstName
+                        : shopData.firstName
+                    }
+                  />
+                </div>
+                <div className="space-y-2 ">
+                  <p className="text-gray-500 ">last name</p>
+                  <input
+                    onChange={handleOnSetValue}
+                    name="lastName"
+                    className="w-full px-3 py-1 border rounded bg-gray-50"
+                    value={
+                      business?.data?.lastName?.length > 0
+                        ? business?.data?.lastName
+                        : shopData.lastName
+                    }
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-1 space-y-2 sm:space-y-0 sm:grid-cols-2 gap-x-4">
                 <div className="space-y-2 ">
