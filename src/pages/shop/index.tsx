@@ -82,6 +82,19 @@ export default function shop() {
     amenity: [],
   });
 
+  useEffect(() => {
+    setShopData({
+      ...shopData,
+      firstName: business?.data?.firstName,
+      lastName: business?.data?.lastName,
+      introduction: business?.data?.introduction,
+      about: business?.data?.about,
+      announcement: business?.data?.announcement,
+      customers: business?.data?.customers,
+      amenity: business?.data?.amenity,
+    });
+  }, [business?.data]);
+
   function handleAmenities(amenity: string) {
     if ([...amenities].includes(amenity)) {
       setAmenities([...amenities.filter((i) => i !== amenity)]);
@@ -89,6 +102,10 @@ export default function shop() {
     }
     amenities.push(amenity);
     setAmenities([...amenities]);
+    setShopData({
+      ...shopData,
+      amenity: amenities,
+    });
   }
 
   function handleImage(imageList: any) {
@@ -103,28 +120,15 @@ export default function shop() {
   }
 
   function handleEditButton() {
-    console.log("business ==========>", business);
     if (editable) {
       setEdit(false);
-      console.log(
-        "business?.data?.amenity ===> ",
-        business?.data?.amenity,
-        "business ==========>",
-        business
-      );
       setAmenities([...business?.data?.amenity]);
-
       return;
     }
     setEdit(true);
   }
 
   async function handleUpdateProfile() {
-    console.log("clicked here ====>");
-    setShopData({
-      ...shopData,
-      amenity: amenities,
-    });
     setEdit(false);
     const { data, status } = await adminApi.updateStoreProfile(
       business?.data?.id,
