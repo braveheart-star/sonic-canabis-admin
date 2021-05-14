@@ -64,19 +64,6 @@ export default function shop() {
     if (business?.data?.amenity) setAmenities(business?.data?.amenity);
   }, [business?.data?.amenity]);
 
-  useEffect(() => {
-    setShopData({
-      ...shopData,
-      firstName: business?.data?.firstName,
-      lastName: business?.data?.lastName,
-      introduction: business?.data?.introduction,
-      about: business?.data?.about,
-      announcement: business?.data?.announcement,
-      customers: business?.data?.customers,
-      amenity: business?.data?.amenity,
-    });
-  }, [business?.data]);
-
   const [editable, setEdit] = useState(false);
 
   // const [activeDay, setActiveDay] = useState(0);
@@ -94,6 +81,8 @@ export default function shop() {
   });
 
   function handleAmenities(amenity: string) {
+    console.log("🚀 ~ file: index.tsx ~ line 87 ~ shop ~ shopData", shopData);
+
     if ([...amenities].includes(amenity)) {
       setAmenities([...amenities.filter((i) => i !== amenity)]);
       return;
