@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import Swal from "sweetalert2";
 import ImageUploading from "react-images-uploading";
@@ -56,23 +56,27 @@ const initAmenities = ["access", "medical"];
 export default function shop() {
   const { data: token } = useSWR("accessToken", storage);
   const { data: business } = useSWR(
-    ["/api/user/self", token],
+    ["/api/admin/self", token],
     adminApi.getCurrentAdmin
   );
-  console.log("🚀 ~ file: index.tsx ~ line 59 ~ shop ~ business", business);
 
   const adminId = business?.data?.id;
+  const temp = business?.data?.amenity;
+
+  useEffect(() => {
+    if (temp) setAmenities(temp);
+  }, [temp]);
 
   // const [activeDay, setActiveDay] = useState(0);
   const [images, setImages] = useState<any[]>([]);
-  const [amenities, setAmenities] = useState<string[]>(initAmenities);
+  const [amenities, setAmenities] = useState<string[]>([]);
 
   const [shopData, setShopData] = useState({
     introduction: "",
     about: "",
     announcement: "",
     customers: "",
-    amenity: [...amenities],
+    amenity: [...initAmenities],
   });
 
   function handleAmenities(amenity: string) {
@@ -112,6 +116,10 @@ export default function shop() {
     );
     if (status !== 200 || data?.error) {
       Swal.fire("Error", data.message, "error");
+    }
+    if (status === 200) {
+      Swal.fire("Success", "Successfully submitted ! ", "success");
+      // await adminApi.uploadImage(images[0].file, token, data.id);
     }
   }
 
