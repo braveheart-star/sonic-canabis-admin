@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import useSWR from "swr";
-import Select from "react-select";
-import Swal from "sweetalert2";
 import axios from "axios";
+import Image from "next/image";
+import Swal from "sweetalert2";
+import Select from "react-select";
+import React, { useEffect, useState } from "react";
 
-import { Layout } from "../../components/common/Layout";
-import { selectStyles } from "../../utils/global";
-import { RegisterPayload } from "../../utils/type";
 import AdminAPI from "../../lib/adminApi";
+import { RegisterPayload } from "../../utils/type";
+import { selectStyles } from "../../utils/global";
+import { Layout } from "../../components/common/Layout";
 
 const businessRole = [
   { value: "advertising", label: "Advertising Manager" },
@@ -22,8 +22,7 @@ const businessRole = [
 ];
 
 const businessType = [
-  { value: "brand", label: "Brand" },
-  { value: "cbdStore", label: "CBD Store" },
+  { value: "cbd", label: "CBD Store" },
   { value: "dispensary", label: "Dispensary" },
   { value: "delivery", label: "Delivery" },
   { value: "doctor", label: "Doctor" },

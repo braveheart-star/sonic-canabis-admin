@@ -62,23 +62,15 @@ export const MobileDrop = (props: MobileDropInterface) => {
                 className="flex items-center space-x-2"
               >
                 <p className="font-bold ">Solutions</p>
-                {!solutionDrop ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    className="w-6 h-6 text-white fill-current "
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    className="w-6 h-6 text-white fill-current "
-                  >
-                    <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                  </svg>
-                )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                    solutionDrop && "rotate-180"
+                  }`}
+                >
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
               </button>
               {solutionDrop && (
                 <div className="space-y-2 ">
@@ -97,49 +89,33 @@ export const MobileDrop = (props: MobileDropInterface) => {
                 className="flex items-center space-x-2"
               >
                 <p className="font-bold ">Products</p>
-                {!productDrop ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    className="w-6 h-6 text-white fill-current "
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    className="w-6 h-6 text-white fill-current "
-                  >
-                    <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                  </svg>
-                )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                    productDrop && "rotate-180"
+                  }`}
+                >
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
               </button>
               {productDrop && (
                 <div className="space-y-2 ">
                   <div>
                     <button
                       onClick={() => setPageDrop(!pageDrop)}
-                      className="flex items-center "
+                      className="flex items-center focus:outline-none"
                     >
                       <p className="p-2 text-sm font-semibold">WM Pages</p>
-                      {!pageDrop ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          className="w-4 h-4 text-white fill-current "
-                        >
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          className="w-4 h-4 text-white fill-current "
-                        >
-                          <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                        </svg>
-                      )}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                          pageDrop && "rotate-180"
+                        }`}
+                      >
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                      </svg>
                     </button>
                     {pageDrop && (
                       <div className="space-y-2 text-xs font-semibold ">
@@ -157,26 +133,18 @@ export const MobileDrop = (props: MobileDropInterface) => {
                   <div>
                     <button
                       onClick={() => setOrderDrop(!orderDrop)}
-                      className="flex items-center "
+                      className="flex items-center focus:outline-none "
                     >
                       <p className="p-2 text-sm font-semibold">WM Orders</p>
-                      {!orderDrop ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          className="w-4 h-4 text-white fill-current "
-                        >
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          className="w-4 h-4 text-white fill-current "
-                        >
-                          <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                        </svg>
-                      )}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                          orderDrop && "rotate-180"
+                        }`}
+                      >
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                      </svg>
                     </button>
                     {orderDrop && (
                       <div className="space-y-2 text-xs font-semibold ">
@@ -193,26 +161,18 @@ export const MobileDrop = (props: MobileDropInterface) => {
                   <div>
                     <button
                       onClick={() => setExchangeDrop(!exchangeDrop)}
-                      className="flex items-center "
+                      className="flex items-center focus:outline-none"
                     >
                       <p className="p-2 text-sm font-semibold">WM Exchange</p>
-                      {!exchangeDrop ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          className="w-4 h-4 text-white fill-current "
-                        >
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          className="w-4 h-4 text-white fill-current "
-                        >
-                          <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
-                        </svg>
-                      )}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        className={`w-4 h-4 text-white duration-300 transform fill-current ${
+                          exchangeDrop && "rotate-180"
+                        }`}
+                      >
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                      </svg>
                     </button>
                     {exchangeDrop && (
                       <div className="space-y-2 text-xs font-semibold ">

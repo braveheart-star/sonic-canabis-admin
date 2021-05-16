@@ -2,13 +2,14 @@ import axios from "axios";
 import { RegisterPayload } from "../utils/type";
 
 const SERVER_BASE_URL = "https://canabismap.com";
+// const SERVER_BASE_URL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 axios.defaults.baseURL = SERVER_BASE_URL;
 console.log(
   "🚀 ~ file: adminApi.tsx ~ line 6 ~ SERVER_BASE_URL",
   SERVER_BASE_URL
 );
 
-const AdminAPI = {
+const adminApi = {
   register: async (payload: RegisterPayload) => {
     try {
       const response = await axios.post(
@@ -38,11 +39,54 @@ const AdminAPI = {
           },
         }
       );
-      console.log(
-        "🚀 ~ file: adminApi.tsx ~ line 37 ~ login: ~ response",
-        response
-      );
 
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  getCurrentAdmin: async (...args: any) => {
+    const [url, token] = args;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  updateStoreProfile: async (id: string, payload: any, token: string) => {
+    try {
+      const response = await axios.put(`/api/admin/update/${id}`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  uploadImage: async (payload: any, token: string, adminId: number) => {
+    var data = new FormData();
+    data.append("file", payload);
+    try {
+      const response = await axios.post(
+        `/api/admin/image/upload/${adminId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response;
     } catch (error) {
       return error.response;
@@ -50,4 +94,4 @@ const AdminAPI = {
   },
 };
 
-export default AdminAPI;
+export default adminApi;

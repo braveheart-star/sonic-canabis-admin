@@ -2,6 +2,7 @@ import axios from "axios";
 import { ProductPayload } from "../utils/type";
 
 const SERVER_BASE_URL = "https://canabismap.com";
+// const SERVER_BASE_URL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 
 axios.defaults.baseURL = SERVER_BASE_URL;
 

@@ -39,6 +39,22 @@ export interface ProductPayload {
 
   // image: string;
 }
+
+export interface ShopDataPayload {
+  firstName: string;
+
+  lastName: string;
+
+  introduction: string;
+
+  about: string;
+
+  announcement: string;
+
+  customers: string;
+
+  amenity: string[];
+}
 export enum NotifyStatus {
   success,
   error,
